@@ -8,13 +8,17 @@ import IVerifyEmailQuery from "../../interfaces/IVerifyEmailQuery";
 import Mail from "../../providers/Mail";
 import IUser from "../../interfaces/IUser";
 import IApiSuccess from "../../interfaces/IApiSuccess";
+import DI from "../../DI";
 
-class AuthController { 
-  constructor(
-    private readonly userService: UserService,
-    private readonly jwtService: JwtService,
-    private readonly mail: Mail
-  ) {
+class AuthController {
+  private readonly userService: UserService;
+  private readonly jwtService: JwtService;
+  private readonly mail: Mail;
+
+  constructor({ userService, jwtService, mail }: typeof DI) {
+    this.mail = mail;
+    this.userService = userService;
+    this.jwtService = jwtService;
   }
 
   async register({
@@ -30,26 +34,23 @@ class AuthController {
     // TODO: 201 status code
     return {
       httpStatus: 201,
-      data:{
-        hey:'you'
-      }
     };
   }
 
-  async login({ payload }: { payload: ILoginPayload }) : Promise<IApiSuccess>{
+  async login({ payload }: { payload: ILoginPayload }): Promise<IApiSuccess> {
     const user = await this.userService.findOneByEmail(payload.email);
 
     if (!user || !(await user.verifyPassword(payload.password)))
       throw new Unauthorized("Please double check your email and password.");
 
     return {
-      data:{
-        token: this.jwtService.sign({ userID: user.id })
-      }
+      data: {
+        token: this.jwtService.sign({ userID: user.id }),
+      },
     };
   }
 
-  async sendEmail({ user }: { user: IUser }) : Promise<IApiSuccess>{
+  async sendEmail({ user }: { user: IUser }): Promise<IApiSuccess> {
     if (user.verified)
       throw new Conflict("The email address has already been verified.");
 
@@ -67,11 +68,15 @@ class AuthController {
     return { message: `Sent an email to ${user.email}` };
   }
 
-  async verifyEmail({ query }: { query: IVerifyEmailQuery }): Promise<IApiSuccess> {
+  async verifyEmail({
+    query,
+  }: {
+    query: IVerifyEmailQuery;
+  }): Promise<IApiSuccess> {
     // TODO: Add key expiration period
-    if (await this.userService.verifyEmail(query.key)) 
+    if (await this.userService.verifyEmail(query.key))
       return { message: "Verified." };
-    
+
     return { message: "Invalid key." };
   }
 }

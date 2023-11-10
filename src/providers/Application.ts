@@ -26,7 +26,7 @@ class Application {
     // TODO: Use the right types
     // @ts-ignore
     this.app[method](
-      `${prefix}`,
+      `/api${prefix}`,
       authMiddleware,
       async (req: Request, res: Response, next: NextFunction) => {
         DI.logger.log("info", `${method} ${req.url}`);
@@ -35,11 +35,7 @@ class Application {
 
           if (method === "get" && schema) await schema.validateAsync(req.query);
 
-          const instance = new controller(
-            DI.userService,
-            DI.jwtService,
-            DI.mail
-          );
+          const instance = new controller(DI);
 
           const result: IApiSuccess = await instance[action]({
             payload: req.body,
