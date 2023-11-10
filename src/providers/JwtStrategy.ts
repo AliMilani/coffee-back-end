@@ -11,7 +11,6 @@ class JwtStrategy {
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: config.JWT_SECRET,
     };
-
     return new Strategy(options, async (payload, done) => {
       try {
         const user = await this.userService.findByID(payload.userID);

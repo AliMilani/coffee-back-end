@@ -1,5 +1,6 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import passport from "passport";
+import _ from "lodash";
 
 import DI from "../DI";
 import config from "../config";
@@ -24,32 +25,36 @@ class Application {
 
     // TODO: Use the right types
     // @ts-ignore
-    this.app[method](prefix, authMiddleware, async (req, res, next) => {
-      DI.logger.log("info", `${method} ${req.url}`);
-      try {
-        if (method === "post" && schema) {
-          await schema.validateAsync(req.body);
+    this.app[method](
+      `${prefix}`,
+      authMiddleware,
+      async (req: Request, res: Response, next: NextFunction) => {
+        DI.logger.log("info", `${method} ${req.url}`);
+        try {
+          if (method === "post" && schema) await schema.validateAsync(req.body);
+
+          if (method === "get" && schema) await schema.validateAsync(req.query);
+
+          const instance = new controller(
+            DI.userService,
+            DI.jwtService,
+            DI.mail
+          );
+
+          const result: IApiSuccess = await instance[action]({
+            payload: req.body,
+            query: req.query,
+            user: req.user,
+          });
+
+          const { data, message = "OK" } = result;
+          const httpStatus = result.httpStatus || (data && message) ? 200 : 204;
+          return res.status(httpStatus).json({ data, message });
+        } catch (error) {
+          return next(error);
         }
-
-        if (method === "get" && schema) {
-          await schema.validateAsync(req.query);
-        }
-
-        const instance = new controller(DI.userService, DI.jwtService, DI.mail);
-
-        const result: IApiSuccess = await instance[action]({
-          payload: req.body,
-          query: req.query,
-          user: req.user,
-        });
-
-        const { data, message = "OK" } = result;
-        const httpStatus = result.httpStatus || (data && message) ? 200 : 204;
-        return res.status(httpStatus).json({ data, message });
-      } catch (error) {
-        return next(error);
       }
-    });
+    );
   }
 
   private joiErrorHandler(error: any, req: any, res: any, next: any) {
