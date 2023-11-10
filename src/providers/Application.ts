@@ -1,6 +1,5 @@
 import express from "express";
 import passport from "passport";
-import bodyParser from "body-parser";
 
 import DI from "../DI";
 import config from "../config";
@@ -14,7 +13,7 @@ class Application {
   public app = express();
 
   constructor() {
-    this.app.use(bodyParser.json());
+    this.app.use(express.json());
     passport.use(new JwtStrategy(DI.userService).createStrategy());
   }
 
