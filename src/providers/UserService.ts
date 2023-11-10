@@ -1,6 +1,5 @@
 import User from '../models/User';
 import IRegisterPayload from '../interfaces/IRegisterPayload';
-import { Document } from 'mongoose';
 
 class UserService {
   findByID(id: string) {

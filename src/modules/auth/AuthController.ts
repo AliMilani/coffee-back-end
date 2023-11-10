@@ -11,15 +11,14 @@ import IApiSuccess from "../../interfaces/IApiSuccess";
 import DI from "../../DI";
 
 class AuthController {
-  private readonly userService: UserService;
-  private readonly jwtService: JwtService;
-  private readonly mail: Mail;
-
   constructor({ userService, jwtService, mail }: typeof DI) {
     this.mail = mail;
     this.userService = userService;
     this.jwtService = jwtService;
   }
+  private readonly userService: UserService;
+  private readonly jwtService: JwtService;
+  private readonly mail: Mail;
 
   async register({
     payload,

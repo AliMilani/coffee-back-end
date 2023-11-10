@@ -5,6 +5,7 @@ import DI from "./DI";
 import config from "./config";
 import Application from "./providers/Application";
 import authRoute from "./routes/auth";
+import customersRoute from "./routes/customers";
 
 async function bootstrap() {
   await mongoose.connect(config.DATABASE_URL);
@@ -13,6 +14,7 @@ async function bootstrap() {
   const app = new Application();
 
   authRoute(app);
+  customersRoute(app)
 
   await app.listen();
 }
