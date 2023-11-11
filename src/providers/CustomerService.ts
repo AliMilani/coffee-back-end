@@ -1,5 +1,6 @@
 import Customer from "../models/Customer";
 import ICustomer from "../interfaces/ICustomer";
+import { paginationPipeLine } from "../helpers/aggregation-pipeline-pagination";
 
 class CustomerService {
   findByID = (id: string) => {
@@ -19,47 +20,23 @@ class CustomerService {
       page: number | undefined;
       limit: number | undefined;
     }) => {
-    const result = (await (Customer.aggregate([
+    const pipeLine =  paginationPipeLine<ICustomer>(
       {
-        $match: {
+        page,
+        limit,
+        filter:{
           $or: [
             { firstName: { $regex: searchKeyword, $options: "i" } },
             { lastName: { $regex: searchKeyword, $options: "i" } },
             { phoneNumber: { $regex: searchKeyword, $options: "i" } },
             { personalCode: { $regex: searchKeyword, $options: "i" } },
           ],
-        },
-      },
-      {
-        $facet: {
-          items: [
-            { $skip: (page - 1) * limit },
-            { $limit: limit },
-            { $project: { __v: 0 } },
-          ],
-          total: [{ $count: "total" }],
-        },
-      },
-      {
-        $project: {
-          items: 1,
-          total: { $arrayElemAt: ["$total.total", 0] },
-        },
-      },
-    ]) as unknown)) as [
-      {
-        items: (ICustomer & { _id: string })[];
-        total: number;
       }
-    ];
-
-    const { items, total } = result[0];
+      });
+    const result = await Customer.aggregate(pipeLine)
 
     return {
-      items,
-      total,
-      page,
-      limit,
+      ...result[0]
     };
   };
 }
