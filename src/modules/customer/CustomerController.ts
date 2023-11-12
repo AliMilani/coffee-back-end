@@ -4,6 +4,7 @@ import IApiSuccess from "../../interfaces/IApiSuccess";
 import ICustomer from "../../interfaces/ICustomer";
 import CustomerService from "../../providers/CustomerService";
 import Logger from "../../providers/Logger";
+import { NotFound } from "../../exceptions";
 
 class CustomerController {
   constructor({ logger, customerService }: typeof DI) {
@@ -34,13 +35,24 @@ class CustomerController {
     };
   }): Promise<IApiSuccess> => {
     const { limit, page, search_keyword } = query;
-    const customers = await this.customerService.find({
+    const customers = await this.customerService.findByPagination({
       limit: _.isString(limit) ? +limit : undefined,
       page: _.isString(page) ? +page : undefined,
       searchKeyword: search_keyword,
     });
     return {
       data: customers,
+    };
+  };
+
+  delete = async ({
+    params: { id },
+  }: {
+    params: { id: string };
+  }): Promise<IApiSuccess> => {
+    const isDeleted=  await this.customerService.delete(id);
+    if(!isDeleted) throw new NotFound("Customer not found")
+    return {
     };
   };
 }

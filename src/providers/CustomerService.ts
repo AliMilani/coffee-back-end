@@ -15,28 +15,36 @@ class CustomerService {
     return (await Customer.create(payload)).toObject();
   };
 
-  find = async ({ searchKeyword = "", page = 1, limit = 10 }:{
-      searchKeyword: string | undefined;
-      page: number | undefined;
-      limit: number | undefined;
-    }) => {
-    const pipeLine =  paginationPipeLine<ICustomer>(
-      {
-        page,
-        limit,
-        filter:{
-          $or: [
-            { firstName: { $regex: searchKeyword, $options: "i" } },
-            { lastName: { $regex: searchKeyword, $options: "i" } },
-            { phoneNumber: { $regex: searchKeyword, $options: "i" } },
-            { personalCode: { $regex: searchKeyword, $options: "i" } },
-          ],
-      }
-      });
-    const result = await Customer.aggregate(pipeLine)
+  delete = async (id: string): Promise<boolean> => {
+    const deletedCustomer = await Customer.findByIdAndDelete(id);
+    return !!deletedCustomer;
+  };
+
+  findByPagination = async ({
+    searchKeyword = "",
+    page = 1,
+    limit = 10,
+  }: {
+    searchKeyword: string | undefined;
+    page: number | undefined;
+    limit: number | undefined;
+  }) => {
+    const pipeLine = paginationPipeLine<ICustomer>({
+      page,
+      limit,
+      filter: {
+        $or: [
+          { firstName: { $regex: searchKeyword, $options: "i" } },
+          { lastName: { $regex: searchKeyword, $options: "i" } },
+          { phoneNumber: { $regex: searchKeyword, $options: "i" } },
+          { personalCode: { $regex: searchKeyword, $options: "i" } },
+        ],
+      },
+    });
+    const result = await Customer.aggregate(pipeLine);
 
     return {
-      ...result[0]
+      ...result[0],
     };
   };
 }

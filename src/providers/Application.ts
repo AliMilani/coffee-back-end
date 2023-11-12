@@ -41,6 +41,7 @@ class Application {
             payload: req.body,
             query: req.query,
             user: req.user,
+            params: req.params,
           });
 
           const { data, message = "OK" } = result;
