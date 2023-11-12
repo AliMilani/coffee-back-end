@@ -1,5 +1,5 @@
 import CustomerController from "../modules/customer/CustomerController";
-import { createSchema,findQuerySchema } from "../modules/customer/schema";
+import { createSchema,findQuerySchema, updateSchema } from "../modules/customer/schema";
 import Application from "../providers/Application";
 
 export default function (app: Application) {
@@ -9,6 +9,15 @@ export default function (app: Application) {
     schema: createSchema,
     controller: CustomerController,
     action: "create",
+    auth: "jwt",
+  });
+
+  app.route({
+    method: "put",
+    prefix: "/customers/:id",
+    schema: updateSchema,
+    controller: CustomerController,
+    action: "updateById",
     auth: "jwt",
   });
 

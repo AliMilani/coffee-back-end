@@ -50,9 +50,21 @@ class CustomerController {
   }: {
     params: { id: string };
   }): Promise<IApiSuccess> => {
-    const isDeleted=  await this.customerService.delete(id);
-    if(!isDeleted) throw new NotFound("Customer not found")
+    const isDeleted = await this.customerService.delete(id);
+    if (!isDeleted) throw new NotFound("Customer not found");
+    return {};
+  };
+
+  updateById = async ({
+    params: { id },
+    payload,
+  }: {
+    params: { id: string };
+    payload: Partial<ICustomer>;
+  }): Promise<IApiSuccess> => {
+    const updatedCustomer = await this.customerService.updateById(id, payload);
     return {
+      data:updatedCustomer
     };
   };
 }
