@@ -1,12 +1,28 @@
-import Joi from 'joi';
+export const registerSchema = {
+  email: {
+    type: "email",
+    label: "ایمیل",
+  },
+  fullname: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+  },
+  password: {
+    type: "string",
+    empty: false,
+    label: "گذرواژه",
+  },
+};
 
-export const registerSchema = Joi.object({
-  email: Joi.string().email().required(),
-  fullname: Joi.string().required(),
-  password: Joi.string().min(8).required(),
-});
-
-export const loginSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
-});
+export const loginSchema = {
+  email: {
+    type: "email",
+    label: "ایمیل",
+  },
+  password: {
+    type: "string",
+    empty: false,
+    label: "گذرواژه",
+  },
+};

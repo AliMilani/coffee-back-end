@@ -9,6 +9,7 @@ import HTTPError from "../exceptions/HTTPError";
 import IRouteOptions from "../interfaces/IRouteOptions";
 import JwtStrategy from "./JwtStrategy";
 import IApiSuccess from "../interfaces/IApiSuccess";
+import apiValidator from "../utils/apiValidator";
 
 class Application {
   public app = express();
@@ -31,9 +32,24 @@ class Application {
       async (req: Request, res: Response, next: NextFunction) => {
         DI.logger.log("info", `${method} ${req.url}`);
         try {
-          if (method === "post" && schema) await schema.validateAsync(req.body);
+          if (method === "post" && schema) {
+            // await schema.validateAsync(req.body)
+            const result = await apiValidator(schema, req.body);
+            if (result)
+              return res.status(422).send({
+                error: "invalid_body",
+                errors: result,
+              });
+          }
 
-          if (method === "get" && schema) await schema.validateAsync(req.query);
+          if (method === "get" && schema) {
+            const result = await apiValidator(schema, req.query);
+            if (result)
+              return res.status(422).send({
+                error: "invaid_query",
+                errors: result,
+              });
+          }
 
           const instance = new controller(DI);
 
@@ -54,12 +70,12 @@ class Application {
     );
   }
 
-  private joiErrorHandler(error: any, req: any, res: any, next: any) {
-    if (error.isJoi) {
-      throw new BadRequest(error.message);
-    }
-    next(error);
-  }
+  // private joiErrorHandler(error: any, req: any, res: any, next: any) {
+  //   if (error.isJoi) {
+  //     throw new BadRequest(error.message);
+  //   }
+  //   next(error);
+  // }
 
   // TODO: Use the right types
   private globalErrorHandler(error: any, req: any, res: any, next: any) {
@@ -74,7 +90,7 @@ class Application {
   }
 
   listen() {
-    this.app.use(this.joiErrorHandler);
+    // this.app.use(this.joiErrorHandler);
     this.app.use(this.globalErrorHandler);
 
     return new Promise((resolve) => {

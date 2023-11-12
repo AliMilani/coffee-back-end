@@ -1,31 +1,77 @@
-import Joi from "joi";
+export const createSchema = {
+  allergies: {
+    type: "array",
+    items: "string",
+    optional: true,
+  },
+  annoyances: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+    optional: true,
+  },
+  birthDate: {
+    type: "date",
+    optional: true,
+  },
+  firstName: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+    optional: true,
+  },
+  lastName: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+    optional: true,
+  },
+  note: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+    optional: true,
+  },
+  persinalCode: {
+    type: "number",
+    optional: true,
+  },
+  phoneNumber: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+  },
+  userType: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+    optional: true,
+  },
+};
 
-export const createSchema = Joi.object({
-  allergies: Joi.array().items(Joi.string()),
-  annoyances: Joi.string(),
-  birthDate: Joi.date(),
-  firstName: Joi.string(),
-  lastName: Joi.string(),
-  note: Joi.string(),
-  persinalCode: Joi.number(),
-  phoneNumber: Joi.string().required(),
-  userType: Joi.string(),
-});
+export const updateSchema = {
+  ...createSchema,
+  phoneNumber: {
+    type: "string",
+    empty: false,
+    label: "نام کامل",
+    optional: true,
+  },
+};
 
-export const updateSchema = Joi.object({
-  allergies: Joi.array().items(Joi.string()),
-  annoyances: Joi.string(),
-  birthDate: Joi.date(),
-  firstName: Joi.string(),
-  lastName: Joi.string(),
-  note: Joi.string(),
-  persinalCode: Joi.number(),
-  phoneNumber: Joi.string(),
-  userType: Joi.string(),
-});
-
-export const findQuerySchema = Joi.object({
-  page: Joi.string(),
-  limit: Joi.string(),
-  search_keyword : Joi.string()
-});
+export const findQuerySchema = {
+  page: {
+    type: "number",
+    convert: true,
+    optional: true,
+  },
+  limit: {
+    type: "number",
+    convert: true,
+    optional: true,
+  },
+  search_keyword: {
+    type: "string",
+    optional: true,
+  },
+};
