@@ -1,4 +1,5 @@
 import _ from "lodash";
+
 import DI from "../../DI";
 import IApiSuccess from "../../interfaces/IApiSuccess";
 import ICustomer from "../../interfaces/ICustomer";
@@ -62,9 +63,9 @@ class CustomerController {
     params: { id: string };
     payload: Partial<ICustomer>;
   }): Promise<IApiSuccess> => {
-    const updatedCustomer = await this.customerService.updateById(id, payload);
+    const updatedCustomer = await this.customerService.updateById(id, payload); // TODO: catch not found
     return {
-      data:updatedCustomer
+      data: updatedCustomer,
     };
   };
 }
