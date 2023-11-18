@@ -32,7 +32,7 @@ class Application {
       async (req: Request, res: Response, next: NextFunction) => {
         DI.logger.log("info", `${method} ${req.url}`);
         try {
-          if (method === "post" && schema) {
+          if (method === "post" && schema || method === "put" && schema) {
             // await schema.validateAsync(req.body)
             const result = await apiValidator(schema, req.body);
             if (result)

@@ -7,12 +7,14 @@ import JwtService from "./providers/JwtService";
 import Mail from "./providers/Mail";
 import CustomerService from "./providers/CustomerService";
 import ProductService from "./providers/ProductService";
+import InvoiceService from "./providers/InvoiceService";
 
 const deps = {
   logger: new Logger,
   userService: new UserService,
   customerService: new CustomerService,
   productService: new ProductService,
+  invoiceService: new InvoiceService,
   jwtService: new JwtService,
   mail: new Mail,
 };
