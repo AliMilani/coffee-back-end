@@ -6,6 +6,9 @@ import { paginationPipeLine } from "../helpers/aggregation-pipeline-pagination";
 import ICreateInvoice from "../interfaces/ICreateInvoice";
 import IProduct from "../interfaces/IProduct";
 import IUpdateInvoicePayload from "../interfaces/IUpdateInvoicePayload";
+import IInvoiceUpdateProductPayload from "../interfaces/IInvoiceUpdateProductPayload";
+import IInvoiceAddProductPayload from "../interfaces/IInvoiceAddProductPayload";
+import mongoose from "mongoose";
 // import IInvoiceAddProductPayload from "../interfaces/IInvoiceAddProductPayload";
 // import mongoose from "mongoose";
 
@@ -105,7 +108,7 @@ class InvoiceService {
   }: {
     page: number | undefined;
     limit: number | undefined;
-  }) => {
+  }):Promise<any> => {
     const pipeLine = paginationPipeLine<IInvoice>({
       page,
       limit,
@@ -122,13 +125,16 @@ class InvoiceService {
 
   addProduct = async (
     invoice: IInvoice,
-    productItem: InvoiceItem
+    productItem: Omit<IInvoiceAddProductPayload, "invoice">
   ): Promise<void> => {
-    const productId = productItem.product._id?.toString();
-    if (typeof productId !== "string") throw new Error("ProductId is required");
+    const productId = productItem.product;
+    // if (typeof productId !== "string") throw new Error("ProductId is required");
 
-    const isAlreadyAdded = !!this._getProductItemById(productId, invoice.items);
-    if (isAlreadyAdded) throw new Error("Product already added");
+    if (invoice.items && invoice.items.length) {
+      console.log(invoice.items);
+      const isAlreadyAdded = this._getProductItemById(productId, invoice.items);
+      if (isAlreadyAdded) throw new Error("Product already added");
+    }
 
     await Invoice.findByIdAndUpdate(invoice._id, {
       $push: {
@@ -141,20 +147,25 @@ class InvoiceService {
     productId: string,
     productItems: InvoiceItem[]
   ) => {
-    return productItems.find((item) => item.product.toString() === productId);
+    return productItems.find(
+      (item) => item.product?._id?.toString() === productId
+    );
   };
 
   updateProduct = async (
     invoice: IInvoice,
     productId: string,
-    productItem: Partial<InvoiceItem>
-  ) => {
+    productItem: IInvoiceUpdateProductPayload
+  ):Promise<void> => {
     if (!invoice._id) throw new Error("_id is required");
     const invoiceId = invoice._id.toString();
 
     const targetProduct = this._getProductItemById(productId, invoice.items);
     if (!targetProduct) throw new Error("Product not found to update");
 
+    // console.log(targetProduct,productItem)
+    // console.log("llllllll")
+    // console.log({ ...targetProduct, ...productItem })
     await this.removeProduct(invoiceId, productId);
 
     const itemToUpdate = { ...targetProduct, ...productItem };
@@ -162,10 +173,21 @@ class InvoiceService {
     await this.addProduct(invoice, itemToUpdate);
   };
 
-  removeProduct = async (invoiceId: string, productId: string) => {
+  removeProduct = async (
+    invoiceId: string,
+    productId: string
+  ): Promise<void> => {
+    const invoice = await this.findByID(invoiceId);
+    if (!invoice) throw new Error("Invoice not found");
+    const targetProduct = this._getProductItemById(productId, invoice.items);
+    if (!targetProduct) {
+      throw new Error("Product not found to delete");
+    }
     await Invoice.findByIdAndUpdate(invoiceId, {
       $pull: {
-        "items.$.productId": productId,
+        items: {
+          product: productId,
+        },
       },
     });
   };

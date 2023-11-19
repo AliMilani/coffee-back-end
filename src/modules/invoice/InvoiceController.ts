@@ -6,16 +6,20 @@ import InvoiceService from "../../providers/InvoiceService";
 import Logger from "../../providers/Logger";
 import ICreateInvoice from "../../interfaces/ICreateInvoice";
 import IInvoice from "../../interfaces/IInvoice";
-import { NotFound } from "../../exceptions";
+import { Conflict, NotFound } from "../../exceptions";
 import IInvoiceAddProductPayload from "../../interfaces/IInvoiceAddProductPayload";
+import ProductService from "../../providers/ProductService";
+import IInvoiceUpdateProductPayload from "../../interfaces/IInvoiceUpdateProductPayload";
 
 class InvoiceController {
-  constructor({ logger, invoiceService }: typeof DI) {
+  constructor({ logger, invoiceService, productService }: typeof DI) {
     this.logger = logger;
     this.invoiceService = invoiceService;
+    this.productService = productService;
   }
   private readonly logger: Logger;
   private readonly invoiceService: InvoiceService;
+  private readonly productService: ProductService;
 
   create = async ({
     payload,
@@ -41,7 +45,8 @@ class InvoiceController {
         data,
       };
     } catch (error) {
-      if (error instanceof Error && error.message == "Not found by id") throw new NotFound();
+      if (error instanceof Error && error.message == "Not found by id")
+        throw new NotFound();
       throw error;
     }
   };
@@ -88,11 +93,66 @@ class InvoiceController {
 
   addProduct = async ({
     payload,
-    params: { id },
-  }: {
+    params: { invoiceId },
+  }: // params: { id },
+  {
     payload: IInvoiceAddProductPayload;
-    params: { id: string };
+    params: { invoiceId: string };
   }): Promise<IApiSuccess> => {
+    try {
+      const invoiceItem = payload;
+
+      const invoice = await this.invoiceService.findByID(invoiceId);
+      if (!invoice) throw new Error("invoice not found");
+
+      await this.invoiceService.addProduct(invoice, invoiceItem);
+      return {};
+    } catch (error) {
+      if (error instanceof Error && error.message === "Product already added")
+        throw new Conflict("PRODUCT_ALREADY_ADDED");
+      throw error;
+    }
+  };
+
+  updateProduct = async ({
+    payload: invoiceItem,
+    params: { invoiceId, productId },
+  }: {
+    payload: IInvoiceUpdateProductPayload;
+    params: { invoiceId: string; productId: string };
+  }): Promise<IApiSuccess> => {
+    const invoice = await this.invoiceService.findByID(invoiceId);
+    if (!invoice) throw new Error("invoice not found");
+
+    try {
+      await this.invoiceService.updateProduct(invoice, productId, invoiceItem);
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message == "Product not found to update"
+      )
+        throw new Conflict("PRODUCT_NOT_FOUND");
+      throw error;
+    }
+
+    return {};
+  };
+
+  deleteProduct = async ({
+    params: { invoiceId, productId },
+  }: {
+    params: { invoiceId: string; productId: string };
+  }): Promise<IApiSuccess> => {
+    try {
+      await this.invoiceService.removeProduct(invoiceId, productId);
+    } catch (error) {
+      if (!(error instanceof Error)) throw error;
+      if (error.message === "Invoice not found")
+        throw new NotFound("INVOICE_NOT_FOUND");
+      if (error.message === "Product not found to delete")
+        throw new NotFound("PRODUCT_NOT_FOUND");
+      throw error;
+    }
     return {};
   };
 }

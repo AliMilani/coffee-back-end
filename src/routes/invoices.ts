@@ -22,6 +22,8 @@ export default function (app: Application) {
     prefix: "/invoices/:id",
     action: "updateById",
     schema: updateSchema,
+    auth: "jwt"
+
   });
 
   app.route({
@@ -29,6 +31,8 @@ export default function (app: Application) {
     method: "get",
     prefix: "/invoices/:id",
     action: "findById",
+    auth: "jwt"
+
   });
 
   app.route({
@@ -37,7 +41,32 @@ export default function (app: Application) {
     prefix: "/invoices",
     action: "find",
     schema: findQuerySchema,
+    auth: "jwt"
   });
+
+  app.route({
+    controller: InvoiceController,
+    method : "post",
+    prefix: "/invoices/:invoiceId/products",
+    action: "addProduct",
+    auth: "jwt"
+  })
+
+  app.route({
+    controller: InvoiceController,
+    method : "put",
+    prefix: "/invoices/:invoiceId/products/:productId",
+    action: "updateProduct",
+    auth: "jwt"
+  })
+
+  app.route({
+    controller: InvoiceController,
+    method : "delete",
+    prefix: "/invoices/:invoiceId/products/:productId",
+    action: "deleteProduct",
+    auth: "jwt"
+  })
 
   // app.route({
   //   method: "post",
