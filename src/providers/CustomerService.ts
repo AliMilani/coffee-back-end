@@ -1,18 +1,27 @@
+import _ from "lodash";
+
 import Customer from "../models/Customer";
 import ICustomer from "../interfaces/ICustomer";
 import { paginationPipeLine } from "../helpers/aggregation-pipeline-pagination";
 
 class CustomerService {
   create = async (payload: ICustomer) => {
-    return (await Customer.create(payload)).toObject();
+    try {
+      const createdCustomer = await Customer.create(payload);
+      return createdCustomer.toObject();
+    } catch (error:unknown) {
+      if (_.get(error,"keyPattern.phoneNumber",null))
+        throw new Error("Phone number already exists");
+      throw error;
+    }
   };
 
   updateById = async (id: string, payload: Partial<ICustomer>) => {
     const updatedCustomer = await Customer.findByIdAndUpdate(id, payload, {
       new: true,
-    }).lean()
+    }).lean();
     if (!updatedCustomer) throw new Error("Not found by id");
-    return updatedCustomer
+    return updatedCustomer;
   };
 
   findByID = (id: string) => {

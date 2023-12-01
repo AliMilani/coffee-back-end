@@ -1,7 +1,7 @@
 export const createSchema = {
-  allergies: {
-    type: "array",
-    items: "string",
+  allergy: {
+    type: "string",
+    label: "آلرژی",
     optional: true,
   },
   annoyances: {
@@ -12,39 +12,42 @@ export const createSchema = {
   },
   birthDate: {
     type: "date",
+    label: "تاریخ تولد",
     optional: true,
   },
   firstName: {
     type: "string",
     empty: false,
-    label: "نام کامل",
+    label: "نام",
     optional: true,
   },
   lastName: {
     type: "string",
     empty: false,
-    label: "نام کامل",
+    label: "نام خانوادگی",
     optional: true,
   },
   note: {
     type: "string",
     empty: false,
-    label: "نام کامل",
+    label: "یادداشت",
     optional: true,
   },
   persinalCode: {
     type: "number",
+    convert:true,
+    label: "کد عوضویت",
     optional: true,
   },
   phoneNumber: {
-    type: "string",
-    empty: false,
-    label: "نام کامل",
+    type: "number",
+    convert:true,
+    label: "تلفن همراه",
   },
   userType: {
     type: "string",
     empty: false,
-    label: "نام کامل",
+    label: "نوع کاربر",
     optional: true,
   },
 };

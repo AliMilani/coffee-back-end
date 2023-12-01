@@ -1,11 +1,11 @@
 export default interface ICustomer {
   firstName?: string;
   lastName?: string;
-  phoneNumber: string;
+  phoneNumber: number;
   persinalCode?: number;
   userType?: string;
   birthDate?: Date;
-  allergies?: string[];
+  allergy?: string;
   annoyances?: string;
   note?: string;
 }

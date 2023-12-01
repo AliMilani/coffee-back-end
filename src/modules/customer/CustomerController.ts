@@ -5,7 +5,7 @@ import IApiSuccess from "../../interfaces/IApiSuccess";
 import ICustomer from "../../interfaces/ICustomer";
 import CustomerService from "../../providers/CustomerService";
 import Logger from "../../providers/Logger";
-import { NotFound } from "../../exceptions";
+import { Conflict, NotFound } from "../../exceptions";
 
 class CustomerController {
   constructor({ logger, customerService }: typeof DI) {
@@ -20,10 +20,19 @@ class CustomerController {
   }: {
     payload: ICustomer;
   }): Promise<IApiSuccess> => {
-    return {
-      data: await this.customerService.create(payload),
-      httpStatus: 201,
-    };
+    try {
+      return {
+        data: await this.customerService.create(payload),
+        httpStatus: 201,
+      };
+    } catch (error) {
+      if (
+        error instanceof Error &&
+        error.message === "Phone number already exists"
+      )
+        throw new Conflict("DUPLICATE_PHONE_NUMBER");
+      throw error;
+    }
   };
 
   find = async ({

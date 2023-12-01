@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const customerSchema = new Schema<ICustomer>(
   {
-    allergies: [{ type: String }],
+    allergy: String,
     annoyances: String,
     birthDate: Date,
     firstName: String,
@@ -13,8 +13,10 @@ const customerSchema = new Schema<ICustomer>(
     note: String,
     persinalCode: Number,
     phoneNumber: {
-      type: String,
+      type: Number,
       required: true,
+      unique: true,
+      index: true,
     },
     userType: String,
   },
