@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
+import cors from "cors"
 import passport from "passport";
 import _ from "lodash";
 
@@ -16,6 +17,7 @@ class Application {
 
   constructor() {
     this.app.use(express.json());
+    this.app.use(cors())
     passport.use(new JwtStrategy(DI.userService).createStrategy());
   }
 
