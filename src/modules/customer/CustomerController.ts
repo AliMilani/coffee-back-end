@@ -77,6 +77,18 @@ class CustomerController {
       data: updatedCustomer,
     };
   };
+
+  getById = async ({
+    params: { id },
+  }: {
+    params: { id: string };
+  }): Promise<IApiSuccess> =>{
+    const customer = await this.customerService.findByID(id)
+    if(!customer) throw new NotFound()
+    return {
+      data: customer,
+    }
+  }
 }
 
 export default CustomerController;

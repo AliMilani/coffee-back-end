@@ -29,6 +29,14 @@ export default function (app: Application) {
     controller: CustomerController,
     auth: "jwt",
   });
+  
+  app.route({
+    method: "get",
+    action: "getById",
+    prefix: "/customers/:id",
+    controller: CustomerController,
+    auth: "jwt",
+  });
 
   app.route({
     method: "delete",
