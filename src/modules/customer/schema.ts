@@ -55,10 +55,10 @@ export const createSchema = {
 export const updateSchema = {
   ...createSchema,
   phoneNumber: {
-    type: "string",
-    empty: false,
-    label: "نام کامل",
-    optional: true,
+    type: "number",
+    convert:true,
+    label: "تلفن همراه",
+    optional:true
   },
 };
 
