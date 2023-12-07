@@ -7,6 +7,7 @@ export const createSchema = {
   price:{
     type:"number",
     empty:false,
+    convert: true,
     label:"قیمت"
   },
   inStock:{
