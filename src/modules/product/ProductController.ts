@@ -64,6 +64,18 @@ class ProductController {
       data:updatedCustomer
     };
   };
+
+  getById = async ({
+    params: { id },
+  }: {
+    params: { id: string };
+  }): Promise<IApiSuccess> =>{
+    const product = await this.productService.findByID(id)
+    if(!product) throw new NotFound()
+    return {
+      data: product,
+    }
+  }
 }
 
 

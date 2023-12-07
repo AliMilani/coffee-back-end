@@ -37,4 +37,12 @@ export default function (app: Application) {
     controller: ProductController,
     auth: "jwt",
   });
+
+  app.route({
+    method: "get",
+    action: "getById",
+    prefix: "/products/:id",
+    controller: ProductController,
+    auth: "jwt",
+  });
 }
