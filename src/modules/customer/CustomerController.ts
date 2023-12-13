@@ -26,11 +26,12 @@ class CustomerController {
         httpStatus: 201,
       };
     } catch (error) {
-      if (
-        error instanceof Error &&
-        error.message === "Phone number already exists"
-      )
-        throw new Conflict("DUPLICATE_PHONE_NUMBER");
+      if (error instanceof Error) {
+        if (error.message === "Phone number already exists")
+          throw new Conflict("DUPLICATE_PHONE_NUMBER");
+        if (error.message === "personal Code already exists")
+          throw new Conflict("DUPLICATE_PERSONAL_CODE");
+      }
       throw error;
     }
   };
@@ -82,13 +83,13 @@ class CustomerController {
     params: { id },
   }: {
     params: { id: string };
-  }): Promise<IApiSuccess> =>{
-    const customer = await this.customerService.findByID(id)
-    if(!customer) throw new NotFound()
+  }): Promise<IApiSuccess> => {
+    const customer = await this.customerService.findByID(id);
+    if (!customer) throw new NotFound();
     return {
       data: customer,
-    }
-  }
+    };
+  };
 }
 
 export default CustomerController;

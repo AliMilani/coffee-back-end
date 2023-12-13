@@ -12,6 +12,7 @@ export const createSchema = {
   },
   birthDate: {
     type: "date",
+    convert: true,
     label: "تاریخ تولد",
     optional: true,
   },
@@ -33,15 +34,15 @@ export const createSchema = {
     label: "یادداشت",
     optional: true,
   },
-  persinalCode: {
-    type: "number",
-    convert:true,
+  personalCode: {
+    type: "string",
+    empty: false,
     label: "کد عوضویت",
     optional: true,
   },
   phoneNumber: {
-    type: "number",
-    convert:true,
+    type: "string",
+    empty: false,
     label: "تلفن همراه",
   },
   userType: {

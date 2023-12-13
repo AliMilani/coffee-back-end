@@ -9,9 +9,11 @@ class CustomerService {
     try {
       const createdCustomer = await Customer.create(payload);
       return createdCustomer.toObject();
-    } catch (error:unknown) {
-      if (_.get(error,"keyPattern.phoneNumber",null))
+    } catch (error: unknown) {
+      if (_.get(error, "keyPattern.phoneNumber", null))
         throw new Error("Phone number already exists");
+      if (_.get(error, "keyPattern.personalCode", null))
+        throw new Error("personal Code already exists");
       throw error;
     }
   };
@@ -48,8 +50,8 @@ class CustomerService {
         $or: [
           { firstName: { $regex: searchKeyword, $options: "i" } },
           { lastName: { $regex: searchKeyword, $options: "i" } },
-          { phoneNumber: { $regex: searchKeyword, $options: "i" } },
-          { personalCode: { $regex: searchKeyword, $options: "i" } },
+          {phoneNumber: { $regex: searchKeyword, $options: "i" }},
+          {personalCode: { $regex: searchKeyword, $options: "i" }},
         ],
       },
     });

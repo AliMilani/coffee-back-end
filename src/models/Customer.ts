@@ -11,9 +11,12 @@ const customerSchema = new Schema<ICustomer>(
     firstName: String,
     lastName: String,
     note: String,
-    persinalCode: Number,
+    personalCode: {
+      type:String,
+      unique:true,
+    },
     phoneNumber: {
-      type: Number,
+      type: String,
       required: true,
       unique: true,
       index: true,
