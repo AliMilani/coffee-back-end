@@ -21,8 +21,11 @@ class CustomerController {
     payload: ICustomer;
   }): Promise<IApiSuccess> => {
     try {
+      const customerToCreate = {...payload};
+      const {  personalCode } = payload;
+      if(!personalCode) customerToCreate.personalCode = Math.floor(100000 + Math.random() * 900000).toString();
       return {
-        data: await this.customerService.create(payload),
+        data: await this.customerService.create(customerToCreate),
         httpStatus: 201,
       };
     } catch (error) {

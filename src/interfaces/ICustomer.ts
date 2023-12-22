@@ -2,7 +2,7 @@ export default interface ICustomer {
   firstName?: string;
   lastName?: string;
   phoneNumber: string;
-  personalCode?: string;
+  personalCode: string;
   userType?: string;
   birthDate?: Date;
   allergy?: string;

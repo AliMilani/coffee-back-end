@@ -37,6 +37,7 @@ const invoiceSchema = new Schema<Invoice>(
     ServiceFee: {
       type: Number,
       default: 0,
+      // TODO: min limit e.g 500 (t)
     },
     invoiceDiscount: {
       type: Number,
@@ -44,6 +45,7 @@ const invoiceSchema = new Schema<Invoice>(
     },
     totalPaymentAmount: {
       type: Number,
+      // TODO: default: 0  to all number props
     },
     paymentType: {
       type: String,

@@ -14,6 +14,8 @@ const customerSchema = new Schema<ICustomer>(
     personalCode: {
       type:String,
       unique:true,
+      index:true,
+      required:true
     },
     phoneNumber: {
       type: String,
