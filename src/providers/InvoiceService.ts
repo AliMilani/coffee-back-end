@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 import Invoice from "../models/Invoice";
 import IInvoice, { InvoiceItem } from "../interfaces/IInvoice";
 import { paginationPipeLine } from "../helpers/aggregation-pipeline-pagination";
@@ -115,7 +113,7 @@ class InvoiceService {
       filter: {},
     });
     const result = await Invoice.aggregate(pipeLine);
-
+    if(!result[0]?.items) return result[0]
     await Invoice.populate(result[0].items, { path: "customer" });
 
     return {
@@ -129,7 +127,6 @@ class InvoiceService {
   ): Promise<void> => {
     const productId = productItem.product;
     // if (typeof productId !== "string") throw new Error("ProductId is required");
-
     if (invoice.items && invoice.items.length) {
       console.log(invoice.items);
       const isAlreadyAdded = this._getProductItemById(productId, invoice.items);
@@ -159,18 +156,21 @@ class InvoiceService {
   ):Promise<void> => {
     if (!invoice._id) throw new Error("_id is required");
     const invoiceId = invoice._id.toString();
+    console.log({invoice,productItem,productId})
 
-    const targetProduct = this._getProductItemById(productId, invoice.items);
-    if (!targetProduct) throw new Error("Product not found to update");
+    const targetInvoiceItem = this._getProductItemById(productId, invoice.items);
+    if (!targetInvoiceItem) throw new Error("Product not found to update");
 
     // console.log(targetProduct,productItem)
     // console.log("llllllll")
     // console.log({ ...targetProduct, ...productItem })
     await this.removeProduct(invoiceId, productId);
 
-    const itemToUpdate = { ...targetProduct, ...productItem };
+    const itemToUpdate = { ...targetInvoiceItem, ...productItem };
 
-    await this.addProduct(invoice, itemToUpdate);
+    const newInvoice  = await this.findByID(invoice._id.toString()).lean();
+    if(!newInvoice) throw new Error("Invoice not found")
+    await this.addProduct(newInvoice, itemToUpdate);
   };
 
   removeProduct = async (

@@ -77,7 +77,7 @@ class InvoiceController {
       page,
     });
     return {
-      data: invoices,
+      data: invoices || {},
     };
   };
 
@@ -106,7 +106,9 @@ class InvoiceController {
       if (!invoice) throw new Error("invoice not found");
 
       await this.invoiceService.addProduct(invoice, invoiceItem);
-      return {};
+      return {
+        data:{}
+      };
     } catch (error) {
       if (error instanceof Error && error.message === "Product already added")
         throw new Conflict("PRODUCT_ALREADY_ADDED");
@@ -135,7 +137,9 @@ class InvoiceController {
       throw error;
     }
 
-    return {};
+    return {
+      data:{}
+    };
   };
 
   deleteProduct = async ({
@@ -153,7 +157,9 @@ class InvoiceController {
         throw new NotFound("PRODUCT_NOT_FOUND");
       throw error;
     }
-    return {};
+    return {
+      data:{}
+    };
   };
 }
 
