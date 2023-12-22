@@ -21,25 +21,24 @@ export const updateSchema = {
   },
   ServiceFee: {
     type: "number",
+    convert:true,
     optional:true,
     min: 0,
   },
   invoiceDiscount: {
     type: "number",
+    convert:true,
     optional:true,
     min: 0,
   },
   totalPaymentAmount: {
     type: "forbidden",
-    optional:true,
   },
   invoiceNumber: {
     type: "forbidden",
-    optional:true,
   },
   items: {
     type: "forbidden",
-    optional:true,
   },
   paymentType: {
     type: "string",
