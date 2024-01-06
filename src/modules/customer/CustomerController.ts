@@ -44,14 +44,14 @@ class CustomerController {
   }: {
     query: {
       search_keyword: string | undefined;
-      page: string | undefined;
-      limit: string | undefined;
+      page: number | undefined;
+      limit: number | undefined;
     };
   }): Promise<IApiSuccess> => {
     const { limit, page, search_keyword } = query;
     const customers = await this.customerService.findByPagination({
-      limit: _.isString(limit) ? +limit : undefined,
-      page: _.isString(page) ? +page : undefined,
+      limit,
+      page,
       searchKeyword: search_keyword,
     });
     return {
