@@ -8,6 +8,7 @@ import authRoute from "./routes/auth";
 import customersRoute from "./routes/customers";
 import productsRoute from "./routes/products";
 import invoicesRoute from "./routes/invoices";
+import categoriesRoute from "./routes/categories";
 
 async function bootstrap() {
   await mongoose.connect(config.DATABASE_URL);
@@ -19,6 +20,7 @@ async function bootstrap() {
   customersRoute(app)
   productsRoute(app)
   invoicesRoute(app)
+  categoriesRoute(app)
 
   await app.listen();
 }

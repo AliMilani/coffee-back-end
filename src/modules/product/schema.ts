@@ -14,7 +14,12 @@ export const createSchema = {
     type:"boolean",
     empty:false,
     label:"موجدی انبار"
-  }
+  },
+  category: {
+    type: "objectID",
+    modelName: "Category",
+    label: "دسته",
+  },
 };
 
 export const updateSchema = {
@@ -35,7 +40,13 @@ export const updateSchema = {
     optional:true,
     empty:false,
     label:"موجدی انبار"
-  }
+  },
+  category: {
+    type: "objectID",
+    modelName: "Category",
+    label: "دسته بندی",
+    optional: true,
+  },
 };
 
 export const findQuerySchema = {
