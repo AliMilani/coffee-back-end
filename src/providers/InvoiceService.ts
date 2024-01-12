@@ -136,8 +136,9 @@ class InvoiceService {
     await Invoice.findByIdAndUpdate(invoice._id, {
       $push: {
         items: productItem,
-      },
+      }
     });
+    await this.updateById(invoice._id as string,{})
   };
 
   private _getProductItemById = (
@@ -171,6 +172,7 @@ class InvoiceService {
     const newInvoice  = await this.findByID(invoice._id.toString()).lean();
     if(!newInvoice) throw new Error("Invoice not found")
     await this.addProduct(newInvoice, itemToUpdate);
+    await this.updateById(invoice._id as string,{})
   };
 
   removeProduct = async (
@@ -190,6 +192,7 @@ class InvoiceService {
         },
       },
     });
+    await this.updateById(invoice._id as string,{})
   };
 
   getProducts = async (invoiceId: string) => {
