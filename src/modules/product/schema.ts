@@ -44,7 +44,7 @@ export const updateSchema = {
   category: {
     type: "objectID",
     modelName: "Category",
-    label: "دسته بندی",
+    label: "دسته",
     optional: true,
   },
 };
@@ -62,6 +62,12 @@ export const findQuerySchema = {
   },
   search_name: {
     type: "string",
+    optional: true,
+  },
+  category: {
+    type: "objectID",
+    modelName: "Category",
+    label: "دسته",
     optional: true,
   },
 };

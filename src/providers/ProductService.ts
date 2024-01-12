@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { paginationPipeLine } from "../helpers/aggregation-pipeline-pagination";
 import IProduct from "../interfaces/IProduct";
 import Product from "../models/Product";
@@ -10,9 +11,9 @@ class ProductService {
   updateById = async (id: string, payload: Partial<IProduct>) => {
     const updatedProduct = await Product.findByIdAndUpdate(id, payload, {
       new: true,
-    }).lean()
+    }).lean();
     if (!updatedProduct) throw new Error("Not found by id");
-    return updatedProduct
+    return updatedProduct;
   };
 
   findByID = (id: string) => {
@@ -23,22 +24,27 @@ class ProductService {
     searchName = "",
     page = 1,
     limit = 10,
+    category,
   }: {
     searchName: string | undefined;
     page: number | undefined;
     limit: number | undefined;
+    category: string | undefined;
   }) => {
+    const filter : {name?:any,category?:any} = {
+      name: { $regex: searchName, $options: "i" },
+    } 
+    if(category) filter["category"] =new mongoose.Types.ObjectId(category);
+
     const pipeLine = paginationPipeLine<IProduct>({
       page,
       limit,
-      filter: {
-        name: { $regex: searchName, $options: "i" }
-      },
+      filter,
     });
-    const result = await Product.aggregate(pipeLine);
+    const [result] = await Product.aggregate(pipeLine);
 
     return {
-      ...result[0],
+      ...result,
     };
   };
 
@@ -48,4 +54,4 @@ class ProductService {
   };
 }
 
-export default ProductService
+export default ProductService;
