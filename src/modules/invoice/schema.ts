@@ -1,7 +1,7 @@
 // export {createSchema,findQuerySchema, updateSchema}
 import Invoice, {
   InvoiceItem,
-  InvoicePaymentType,
+  // InvoicePaymentType,
   InvoiceStatus,
 } from "../../interfaces/IInvoice";
 export const createSchema = {
@@ -40,10 +40,22 @@ export const updateSchema = {
   items: {
     type: "forbidden",
   },
-  paymentType: {
-    type: "string",
+  // paymentType: {
+  //   type: "string",
+  //   optional:true,
+  //   enum: ["card", "cash", "mixed"] as InvoicePaymentType[],
+  // },
+  paidCash: {
+    type: "number",
+    convert:true,
     optional:true,
-    enum: ["card", "cash", "mixed"] as InvoicePaymentType[],
+    min: 0,
+  },
+  paidCard: {
+    type: "number",
+    convert:true,
+    optional:true,
+    min: 0,
   },
   status: {
     type: "string",

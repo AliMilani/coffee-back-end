@@ -11,7 +11,7 @@ export type InvoiceItem = {
 
 export type InvoiceStatus = "draft" | "completed" | "canceled";
 
-export type InvoicePaymentType = "cash" | "card" | "mixed";
+// export type InvoicePaymentType = "cash" | "card" | "mixed";
 
 export default interface IInvoice {
   _id?: ObjectId | string;
@@ -24,5 +24,7 @@ export default interface IInvoice {
   ServiceFee?: number;
   invoiceDiscount?: number;
   totalPaymentAmount?: number;
-  paymentType?: InvoicePaymentType;
+  // paymentType?: InvoicePaymentType;
+  paidCash?: number;
+  paidCard?: number;
 }

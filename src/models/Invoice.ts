@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Invoice, {
   InvoiceItem,
-  InvoicePaymentType,
+  // InvoicePaymentType,
   InvoiceStatus,
 } from "../interfaces/IInvoice";
 
@@ -47,9 +47,17 @@ const invoiceSchema = new Schema<Invoice>(
       type: Number,
       // TODO: default: 0  to all number props
     },
-    paymentType: {
-      type: String,
-      enum: ["cash", "card", "mixed"] as InvoicePaymentType[],
+    // paymentType: {
+    //   type: String,
+    //   enum: ["cash", "card", "mixed"] as InvoicePaymentType[],
+    // },
+    paidCash:{
+      type:Number,
+      default:0
+    },
+    paidCard:{
+      type:Number,
+      default:0
     },
     status: {
       type: String,
