@@ -2,13 +2,9 @@ import Invoice from "../models/Invoice";
 import IInvoice, { InvoiceItem } from "../interfaces/IInvoice";
 import { paginationPipeLine } from "../helpers/aggregation-pipeline-pagination";
 import ICreateInvoice from "../interfaces/ICreateInvoice";
-import IProduct from "../interfaces/IProduct";
 import IUpdateInvoicePayload from "../interfaces/IUpdateInvoicePayload";
 import IInvoiceUpdateProductPayload from "../interfaces/IInvoiceUpdateProductPayload";
 import IInvoiceAddProductPayload from "../interfaces/IInvoiceAddProductPayload";
-import mongoose from "mongoose";
-// import IInvoiceAddProductPayload from "../interfaces/IInvoiceAddProductPayload";
-// import mongoose from "mongoose";
 
 class InvoiceService {
   create = async ({ customer }: ICreateInvoice) => {
@@ -24,32 +20,15 @@ class InvoiceService {
     return 12356;
   };
 
-  /*
-  itemPrice = (productPrice - discountAmount) * total
-  itemsPrices = itemPrice + itemPrice + itemPrice
-  totalPaymentAmount =(itemsPrices -ServiceFee) - invoiceDiscount
-  */
 
   updateById = async (id: string, payload: IUpdateInvoicePayload) => {
     const invoice = await this.findByID(id);
-
-    const invoiceDiscount =
-      payload.invoiceDiscount ?? invoice?.invoiceDiscount ?? 0;
-
-    const ServiceFee = payload.ServiceFee ?? invoice?.ServiceFee ?? 0;
-
-    const totalPaymentAmount = this._getTotalPaymentAmount({
-      productItems: invoice?.items || [],
-      invoiceDiscount,
-      ServiceFee,
-    });
 
     const updatedDoc = await Invoice.findByIdAndUpdate(
       id,
       {
         $set: {
           ...payload,
-          totalPaymentAmount,
           // status: "draft" as InvoiceStatus,
         },
       },
@@ -60,6 +39,7 @@ class InvoiceService {
       .populate("customer")
       .lean();
     if (!updatedDoc) throw new Error("Not found by id");
+    await this.updateTotalPaymentAmount(id);
     return updatedDoc;
   };
 
@@ -225,7 +205,7 @@ class InvoiceService {
         },
       },
     });
-    await this.updateById(invoice._id as string, {});
+    await this.updateTotalPaymentAmount(invoiceId);
   };
 
   getProducts = async (invoiceId: string) => {
