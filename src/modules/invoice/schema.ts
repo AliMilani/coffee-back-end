@@ -15,20 +15,20 @@ export const createSchema = {
 export const updateSchema = {
   customer: {
     type: "objectID",
-    optional:true,
+    optional: true,
     modelName: "Customer",
     label: "مشتری",
   },
   ServiceFee: {
     type: "number",
-    convert:true,
-    optional:true,
+    convert: true,
+    optional: true,
     min: 0,
   },
   invoiceDiscount: {
     type: "number",
-    convert:true,
-    optional:true,
+    convert: true,
+    optional: true,
     min: 0,
   },
   totalPaymentAmount: {
@@ -47,19 +47,19 @@ export const updateSchema = {
   // },
   paidCash: {
     type: "number",
-    convert:true,
-    optional:true,
+    convert: true,
+    optional: true,
     min: 0,
   },
   paidCard: {
     type: "number",
-    convert:true,
-    optional:true,
+    convert: true,
+    optional: true,
     min: 0,
   },
   status: {
     type: "string",
-    optional:true,
+    optional: true,
     enum: ["draft", "canceled", "completed"] as InvoiceStatus[],
   },
 };
@@ -75,4 +75,27 @@ export const findQuerySchema = {
     convert: true,
     optional: true,
   },
+};
+
+export const invoiceAddProductSchema = {
+  product: {
+    type: "objectID",
+    optional: true,
+    modelName: "Product",
+    label: "محصول",
+  },
+  discountAmount: {
+    type: "number",
+    convert: true,
+    min: 500,
+    default: 0,
+    label:"تخفیف"
+  },
+  total:{
+    type: "number",
+    convert: true,
+    min: 1,
+    default: 1,
+    label:"تعداد"
+  }
 };

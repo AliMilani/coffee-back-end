@@ -3,6 +3,7 @@ import {
   createSchema,
   updateSchema,
   findQuerySchema,
+  invoiceAddProductSchema,
 } from "../modules/invoice/schema";
 import Application from "../providers/Application";
 
@@ -46,6 +47,7 @@ export default function (app: Application) {
 
   app.route({
     controller: InvoiceController,
+    schema: invoiceAddProductSchema,
     method : "post",
     prefix: "/invoices/:invoiceId/products",
     action: "addProduct",

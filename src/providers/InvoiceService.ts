@@ -34,9 +34,9 @@ class InvoiceService {
     const invoice = await this.findByID(id);
 
     const invoiceDiscount =
-      payload.invoiceDiscount || invoice?.invoiceDiscount || 0;
+      payload.invoiceDiscount ?? invoice?.invoiceDiscount ?? 0;
 
-    const ServiceFee = payload.ServiceFee || invoice?.ServiceFee || 0;
+    const ServiceFee = payload.ServiceFee ?? invoice?.ServiceFee ?? 0;
 
     const totalPaymentAmount = this._getTotalPaymentAmount({
       productItems: invoice?.items || [],
@@ -69,31 +69,36 @@ class InvoiceService {
     ServiceFee = 0,
   }: {
     productItems: InvoiceItem[];
-    invoiceDiscount: number;
-    ServiceFee: number;
+    invoiceDiscount?: number;
+    ServiceFee?: number;
   }): number => {
     const itemsPaymentAmount = this._getItemsPrice(productItems || []);
     const totalPaymentAmount =
       itemsPaymentAmount - (invoiceDiscount + ServiceFee);
+    // console.log({
+    //   itemsPaymentAmount,
+    //   invoiceDiscount,
+    //   ServiceFee,
+    //   totalPaymentAmount,
+    // });
     return totalPaymentAmount;
   };
 
   private _getItemsPrice = (invoiceItems: InvoiceItem[]): number => {
-    return (
-      invoiceItems?.reduce((a: number, c: InvoiceItem) => {
-        const discount = this._itemTotalDiscount(c);
-        return c.product.price - discount + a;
-      }, 0) || 0
-    );
+    return invoiceItems.reduce((total, item) => {
+      const itemTotalPrice = this._itemTotalPrice(item);
+      const itemTotalDiscount = this._itemTotalDiscount(item);
+      // console.log({ total, itemTotalPrice, itemTotalDiscount });
+      return total + itemTotalPrice - itemTotalDiscount;
+    }, 0);
   };
 
-  private _itemTotalDiscount = ({
-    discountAmount,
-    product,
-    total,
-  }: Omit<InvoiceItem, "product"> & { product: IProduct }) => {
-    const price = product.price;
-    return (price - discountAmount) * total;
+  private _itemTotalPrice = (item: InvoiceItem): number => {
+    return item.product.price * item.total;
+  };
+
+  private _itemTotalDiscount = (item: InvoiceItem): number => {
+    return item.discountAmount * item.total;
   };
 
   findByID = (id: string) => {
@@ -106,14 +111,14 @@ class InvoiceService {
   }: {
     page: number | undefined;
     limit: number | undefined;
-  }):Promise<any> => {
+  }): Promise<any> => {
     const pipeLine = paginationPipeLine<IInvoice>({
       page,
       limit,
       filter: {},
     });
     const result = await Invoice.aggregate(pipeLine);
-    if(!result[0]?.items) return result[0]
+    if (!result[0]?.items) return result[0];
     await Invoice.populate(result[0].items, { path: "customer" });
 
     return {
@@ -122,13 +127,18 @@ class InvoiceService {
   };
 
   addProduct = async (
-    invoice: IInvoice,
+    invoiceId: string,
     productItem: Omit<IInvoiceAddProductPayload, "invoice">
   ): Promise<void> => {
+    const invoice = await this.findByID(invoiceId);
+    if (!invoice) throw new Error("invoice not found");
+
     const productId = productItem.product;
-    // if (typeof productId !== "string") throw new Error("ProductId is required");
+    const productService = (await import("../DI")).default.productService; //TODO:fix DI and remove this line
+    const product = await productService.findByID(productId);
+
+    // console.log(product);
     if (invoice.items && invoice.items.length) {
-      console.log(invoice.items);
       const isAlreadyAdded = this._getProductItemById(productId, invoice.items);
       if (isAlreadyAdded) throw new Error("Product already added");
     }
@@ -136,9 +146,30 @@ class InvoiceService {
     await Invoice.findByIdAndUpdate(invoice._id, {
       $push: {
         items: productItem,
-      }
+      },
     });
-    await this.updateById(invoice._id as string,{})
+    await this.updateTotalPaymentAmount(invoice._id.toString());
+  };
+
+  updateTotalPaymentAmount = async (invoiceId: string) => {
+    const invoice = await this.findByID(invoiceId);
+    if (!invoice) throw new Error("Invoice not found");
+
+    // const params = ;
+    // console.log({ params });
+
+    const totalPaymentAmount = this._getTotalPaymentAmount({
+      productItems: invoice.items || [],
+      invoiceDiscount: invoice.invoiceDiscount,
+      ServiceFee: invoice.ServiceFee,
+    });
+    // console.log({ totalPaymentAmount });
+
+    await Invoice.findByIdAndUpdate(invoiceId, {
+      $set: {
+        totalPaymentAmount,
+      },
+    });
   };
 
   private _getProductItemById = (
@@ -146,7 +177,7 @@ class InvoiceService {
     productItems: InvoiceItem[]
   ) => {
     return productItems.find(
-      (item) => item.product?._id?.toString() === productId
+      (item) => item.product._id.toString() === productId
     );
   };
 
@@ -154,12 +185,15 @@ class InvoiceService {
     invoice: IInvoice,
     productId: string,
     productItem: IInvoiceUpdateProductPayload
-  ):Promise<void> => {
+  ): Promise<void> => {
     if (!invoice._id) throw new Error("_id is required");
     const invoiceId = invoice._id.toString();
-    console.log({invoice,productItem,productId})
+    // console.log({ invoice, productItem, productId });
 
-    const targetInvoiceItem = this._getProductItemById(productId, invoice.items);
+    const targetInvoiceItem = this._getProductItemById(
+      productId,
+      invoice.items
+    );
     if (!targetInvoiceItem) throw new Error("Product not found to update");
 
     // console.log(targetProduct,productItem)
@@ -169,10 +203,10 @@ class InvoiceService {
 
     const itemToUpdate = { ...targetInvoiceItem, ...productItem };
 
-    const newInvoice  = await this.findByID(invoice._id.toString()).lean();
-    if(!newInvoice) throw new Error("Invoice not found")
-    await this.addProduct(newInvoice, itemToUpdate);
-    await this.updateById(invoice._id as string,{})
+    const newInvoice = await this.findByID(invoice._id.toString()).lean();
+    if (!newInvoice) throw new Error("Invoice not found");
+    await this.addProduct(invoiceId, itemToUpdate);
+    await this.updateById(invoice._id as string, {});
   };
 
   removeProduct = async (
@@ -182,9 +216,8 @@ class InvoiceService {
     const invoice = await this.findByID(invoiceId);
     if (!invoice) throw new Error("Invoice not found");
     const targetProduct = this._getProductItemById(productId, invoice.items);
-    if (!targetProduct) {
-      throw new Error("Product not found to delete");
-    }
+    if (!targetProduct) throw new Error("Product not found to delete");
+
     await Invoice.findByIdAndUpdate(invoiceId, {
       $pull: {
         items: {
@@ -192,7 +225,7 @@ class InvoiceService {
         },
       },
     });
-    await this.updateById(invoice._id as string,{})
+    await this.updateById(invoice._id as string, {});
   };
 
   getProducts = async (invoiceId: string) => {

@@ -102,10 +102,7 @@ class InvoiceController {
     try {
       const invoiceItem = payload;
 
-      const invoice = await this.invoiceService.findByID(invoiceId);
-      if (!invoice) throw new Error("invoice not found");
-
-      await this.invoiceService.addProduct(invoice, invoiceItem);
+      await this.invoiceService.addProduct(invoiceId, invoiceItem);
       return {
         data:{}
       };

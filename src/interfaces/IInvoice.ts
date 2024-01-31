@@ -14,7 +14,7 @@ export type InvoiceStatus = "draft" | "completed" | "canceled";
 // export type InvoicePaymentType = "cash" | "card" | "mixed";
 
 export default interface IInvoice {
-  _id?: ObjectId | string;
+  _id: ObjectId | string;
   customer: ICustomer | string;
   status: InvoiceStatus;
   // orderDate: Date;
