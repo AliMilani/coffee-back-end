@@ -104,11 +104,17 @@ class InvoiceController {
 
       await this.invoiceService.addProduct(invoiceId, invoiceItem);
       return {
-        data:{}
+        data: {},
       };
     } catch (error) {
-      if (error instanceof Error && error.message === "Product already added")
-        throw new Conflict("PRODUCT_ALREADY_ADDED");
+      if (error instanceof Error) {
+        if (error.message === "Product already added")
+          throw new Conflict("PRODUCT_ALREADY_ADDED");
+        if (error.message === "Discount amount must be less than product price")
+          throw new Conflict("OVER_DISCOUNT");
+        if ((error.message = "Product not in stock"))
+          throw new Conflict("NOT_IN_STOCK");
+      }
       throw error;
     }
   };
@@ -126,16 +132,17 @@ class InvoiceController {
     try {
       await this.invoiceService.updateProduct(invoice, productId, invoiceItem);
     } catch (error) {
-      if (
-        error instanceof Error &&
-        error.message == "Product not found to update"
-      )
-        throw new Conflict("PRODUCT_NOT_FOUND");
+      if (error instanceof Error) {
+        if (error.message == "Product not found to update")
+          throw new Conflict("PRODUCT_NOT_FOUND");
+        if (error.message === "Discount amount must be less than product price")
+          throw new Conflict("OVER_DISCOUNT");
+      }
       throw error;
     }
 
     return {
-      data:{}
+      data: {},
     };
   };
 
@@ -155,7 +162,7 @@ class InvoiceController {
       throw error;
     }
     return {
-      data:{}
+      data: {},
     };
   };
 }

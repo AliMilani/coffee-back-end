@@ -5,6 +5,7 @@ import ICreateInvoice from "../interfaces/ICreateInvoice";
 import IUpdateInvoicePayload from "../interfaces/IUpdateInvoicePayload";
 import IInvoiceUpdateProductPayload from "../interfaces/IInvoiceUpdateProductPayload";
 import IInvoiceAddProductPayload from "../interfaces/IInvoiceAddProductPayload";
+import IProduct from "../interfaces/IProduct";
 
 class InvoiceService {
   create = async ({ customer }: ICreateInvoice) => {
@@ -19,7 +20,6 @@ class InvoiceService {
   private _calcualteInvoiceNumber = () => {
     return 12356;
   };
-
 
   updateById = async (id: string, payload: IUpdateInvoicePayload) => {
     const invoice = await this.findByID(id);
@@ -116,6 +116,9 @@ class InvoiceService {
     const productId = productItem.product;
     const productService = (await import("../DI")).default.productService; //TODO:fix DI and remove this line
     const product = await productService.findByID(productId);
+    if (!product) throw new Error("Product not found");
+
+    this.#validateProductItem(product, productItem.discountAmount);
 
     // console.log(product);
     if (invoice.items && invoice.items.length) {
@@ -131,12 +134,15 @@ class InvoiceService {
     await this.updateTotalPaymentAmount(invoice._id.toString());
   };
 
+  #validateProductItem = (product: IProduct, discountAmount: number) => {
+    if (!product.inStock) throw new Error("Product not in stock");
+    if (product.price <= discountAmount)
+      throw new Error("Discount amount must be less than product price");
+  };
+
   updateTotalPaymentAmount = async (invoiceId: string) => {
     const invoice = await this.findByID(invoiceId);
     if (!invoice) throw new Error("Invoice not found");
-
-    // const params = ;
-    // console.log({ params });
 
     const totalPaymentAmount = this._getTotalPaymentAmount({
       productItems: invoice.items || [],
@@ -175,6 +181,11 @@ class InvoiceService {
       invoice.items
     );
     if (!targetInvoiceItem) throw new Error("Product not found to update");
+
+    this.#validateProductItem(
+      targetInvoiceItem.product,
+      productItem.discountAmount ?? targetInvoiceItem.discountAmount
+    );
 
     // console.log(targetProduct,productItem)
     // console.log("llllllll")
