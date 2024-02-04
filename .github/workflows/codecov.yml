@@ -1,4 +1,14 @@
-- name: Upload coverage reports to Codecov
-  uses: codecov/codecov-action@v3
-  env:
-    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+name: Deploy development server
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  codecov:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
