@@ -4,6 +4,7 @@ import config from "../config"
 
 class Mail {
   private transporter = nodemailer.createTransport({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     host: config.MAIL_HOST,
     port: config.MAIL_PORT,

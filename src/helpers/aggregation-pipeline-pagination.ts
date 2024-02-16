@@ -1,6 +1,7 @@
 /* eslint-disable max-lines-per-function */
 import { FilterQuery, PipelineStage } from "mongoose"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const paginationPipeLine = <T extends Record<string, any>>({
   page = 1,
   limit = 10,
