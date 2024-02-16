@@ -59,9 +59,9 @@ const defaultTypes = {
       value: string,
       errors: ValidationErrorWithLabel[],
       schema: ValidationSchemaWithLabel,
-      name: string,
-      parent: any,
-      context: any,
+      // name: string,
+      // parent: any,
+      // context: any,
     ) => {
       if (!value && schema.optional) return value
       if (!schema.modelName)

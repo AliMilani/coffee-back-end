@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 import DI from "../../DI"
 import IApiSuccess from "../../interfaces/IApiSuccess"
 import ICustomer from "../../interfaces/ICustomer"

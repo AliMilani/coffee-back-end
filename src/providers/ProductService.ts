@@ -31,7 +31,10 @@ class ProductService {
     limit: number | undefined
     category: string | undefined
   }) => {
-    const filter: { name?: any; category?: any } = {
+    const filter: {
+      name?: { $regex: string; $options: string }
+      category?: mongoose.Types.ObjectId
+    } = {
       name: { $regex: searchName, $options: "i" },
     }
     if (category) filter["category"] = new mongoose.Types.ObjectId(category)

@@ -22,8 +22,6 @@ class InvoiceService {
   }
 
   updateById = async (id: string, payload: IUpdateInvoicePayload) => {
-    const invoice = await this.findByID(id)
-
     const updatedDoc = await Invoice.findByIdAndUpdate(
       id,
       {
@@ -91,7 +89,7 @@ class InvoiceService {
   }: {
     page: number | undefined
     limit: number | undefined
-  }): Promise<any> => {
+  }): Promise<unknown> => {
     const pipeLine = paginationPipeLine<IInvoice>({
       page,
       limit,
@@ -222,9 +220,9 @@ class InvoiceService {
     return products?.items || []
   }
 
-  completeInvoice = async (invoiceId: string) => {}
+  // completeInvoice = async (invoiceId: string) => {}
 
-  cancelInvoice = async () => {}
+  // cancelInvoice = async () => {}
 
   delete = async (id: string): Promise<boolean> => {
     const deletedCustomer = await Invoice.findByIdAndDelete(id)
