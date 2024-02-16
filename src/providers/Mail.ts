@@ -1,6 +1,6 @@
-import nodemailer from "nodemailer";
+import nodemailer from "nodemailer"
 
-import config from "../config";
+import config from "../config"
 
 class Mail {
   private transporter = nodemailer.createTransport({
@@ -12,7 +12,7 @@ class Mail {
       user: config.MAIL_USER,
       pass: config.MAIL_PASSWORD,
     },
-  });
+  })
 
   send(to: string, subject: string, html: string) {
     return this.transporter.sendMail({
@@ -21,8 +21,8 @@ class Mail {
       from: `"Ghost 👻" <${config.MAIL_FROM}>`,
       // TODO: Use HTML templates
       html,
-    });
+    })
   }
 }
 
-export default Mail;
+export default Mail

@@ -51,7 +51,7 @@ export const createSchema = {
     label: "نوع کاربر",
     optional: true,
   },
-};
+}
 
 export const updateSchema = {
   ...createSchema,
@@ -61,7 +61,7 @@ export const updateSchema = {
     label: "تلفن همراه",
     optional: true,
   },
-};
+}
 
 export const findQuerySchema = {
   page: {
@@ -78,4 +78,4 @@ export const findQuerySchema = {
     type: "string",
     optional: true,
   },
-};
+}

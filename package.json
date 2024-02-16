@@ -2,7 +2,10 @@
   "scripts": {
     "start": "node src/main.ts",
     "dev": "nodemon src/main.ts",
-    "format": "prettier . --write"
+    "build": "tsc",
+    "format": "prettier . --write",
+    "_lint": "eslint -c .eslintrc.json --ext .ts src",
+    "lint": "eslint . --fix"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",
@@ -28,11 +31,15 @@
     "@types/passport": "^1.0.15",
     "@types/passport-jwt": "^3.0.13",
     "@types/uuid": "^9.0.7",
+    "@typescript-eslint/eslint-plugin": "^7.0.1",
+    "@typescript-eslint/parser": "^7.0.1",
     "dotenv": "^16.0.1",
+    "eslint": "^8.56.0",
     "nodemon": "^3.0.1",
     "prettier": "^3.2.5",
     "ts-node": "^10.8.1",
-    "typescript": "^5.2.2",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^7.0.1",
     "vitest": "^1.2.2"
   }
 }

@@ -3,14 +3,14 @@ import {
   transports,
   format,
   Logger as winstonLogger,
-} from "winston";
+} from "winston"
 
 const logFormat = format.printf(
   (info) => `${info.timestamp} ${info.level}: ${info.message}`,
-);
+)
 
 class Logger {
-  logger: winstonLogger;
+  logger: winstonLogger
 
   constructor() {
     this.logger = createLogger({
@@ -24,12 +24,12 @@ class Logger {
           format: format.combine(format.colorize(), logFormat),
         }),
       ],
-    });
+    })
   }
 
   log(level: string, message: string) {
-    this.logger.log(level, message);
+    this.logger.log(level, message)
   }
 }
 
-export default Logger;
+export default Logger

@@ -1,9 +1,9 @@
-import { v4 as uuid } from "uuid";
-import bcrypt from "bcrypt";
-import mongoose from "mongoose";
-import IUser from "../interfaces/IUser";
+import { v4 as uuid } from "uuid"
+import bcrypt from "bcrypt"
+import mongoose from "mongoose"
+import IUser from "../interfaces/IUser"
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const userSchema = new Schema<IUser>(
   {
@@ -23,25 +23,25 @@ const userSchema = new Schema<IUser>(
     emailVerificationKey: String,
   },
   { timestamps: true },
-);
+)
 
 userSchema.pre("save", async function (next) {
   if (this.isNew) {
-    this.password = await bcrypt.hash(this.password, 10);
+    this.password = await bcrypt.hash(this.password, 10)
   }
 
-  next();
-});
+  next()
+})
 
 userSchema.methods.verifyPassword = function (password: string) {
-  return bcrypt.compare(password, this.password);
-};
+  return bcrypt.compare(password, this.password)
+}
 
 userSchema.methods.generateEmailVerificationKey = async function () {
-  this.emailVerificationKey = uuid();
-  await this.save();
+  this.emailVerificationKey = uuid()
+  await this.save()
 
-  return this.emailVerificationKey;
-};
+  return this.emailVerificationKey
+}
 
-export default mongoose.model("User", userSchema);
+export default mongoose.model("User", userSchema)

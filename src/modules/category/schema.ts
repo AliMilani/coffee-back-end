@@ -4,7 +4,7 @@ export const createSchema = {
     empty: false,
     label: "نام دسته",
   },
-};
+}
 
 export const updateSchema = {
   name: {
@@ -13,7 +13,7 @@ export const updateSchema = {
     empty: false,
     label: "نام دسته",
   },
-};
+}
 
 export const findQuerySchema = {
   page: {
@@ -30,4 +30,4 @@ export const findQuerySchema = {
     type: "string",
     optional: true,
   },
-};
+}

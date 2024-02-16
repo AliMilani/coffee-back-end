@@ -3,14 +3,14 @@ import Invoice, {
   InvoiceItem,
   // InvoicePaymentType,
   InvoiceStatus,
-} from "../../interfaces/IInvoice";
+} from "../../interfaces/IInvoice"
 export const createSchema = {
   customer: {
     type: "objectID",
     modelName: "Customer",
     label: "مشتری",
   },
-};
+}
 
 export const updateSchema = {
   customer: {
@@ -62,7 +62,7 @@ export const updateSchema = {
     optional: true,
     enum: ["draft", "canceled", "completed"] as InvoiceStatus[],
   },
-};
+}
 
 export const findQuerySchema = {
   page: {
@@ -75,7 +75,7 @@ export const findQuerySchema = {
     convert: true,
     optional: true,
   },
-};
+}
 
 export const invoiceAddProductSchema = {
   product: {
@@ -98,4 +98,4 @@ export const invoiceAddProductSchema = {
     default: 1,
     label: "تعداد",
   },
-};
+}

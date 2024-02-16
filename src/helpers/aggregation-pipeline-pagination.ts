@@ -1,16 +1,16 @@
 /* eslint-disable max-lines-per-function */
-import { FilterQuery, PipelineStage } from "mongoose";
+import { FilterQuery, PipelineStage } from "mongoose"
 
 export const paginationPipeLine = <T extends Record<string, any>>({
   page = 1,
   limit = 10,
   filter,
 }: {
-  page: number;
-  limit: number;
-  filter: FilterQuery<T>;
+  page: number
+  limit: number
+  filter: FilterQuery<T>
 }) => {
-  const skip = (page - 1) * limit;
+  const skip = (page - 1) * limit
 
   return [
     {
@@ -69,5 +69,5 @@ export const paginationPipeLine = <T extends Record<string, any>>({
         totalItems: "$total.count",
       },
     },
-  ] as PipelineStage[];
-};
+  ] as PipelineStage[]
+}

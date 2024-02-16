@@ -1,4 +1,4 @@
-import env from "./utils/env";
+import env from "./utils/env"
 // import IConfig from "./interfaces/IConfig";
 
 const config = {
@@ -10,6 +10,6 @@ const config = {
   MAIL_USER: env("MAIL_USER"),
   MAIL_PASSWORD: env("MAIL_PASSWORD"),
   MAIL_FROM: env("MAIL_FROM"),
-};
+}
 
-export default config;
+export default config

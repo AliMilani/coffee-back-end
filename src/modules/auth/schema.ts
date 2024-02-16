@@ -13,7 +13,7 @@ export const registerSchema = {
     empty: false,
     label: "گذرواژه",
   },
-};
+}
 
 export const loginSchema = {
   email: {
@@ -25,4 +25,4 @@ export const loginSchema = {
     empty: false,
     label: "گذرواژه",
   },
-};
+}

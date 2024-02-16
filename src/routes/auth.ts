@@ -1,6 +1,6 @@
-import AuthController from "../modules/auth/AuthController";
-import { loginSchema, registerSchema } from "../modules/auth/schema";
-import Application from "../providers/Application";
+import AuthController from "../modules/auth/AuthController"
+import { loginSchema, registerSchema } from "../modules/auth/schema"
+import Application from "../providers/Application"
 
 export default function (app: Application) {
   app.route({
@@ -9,7 +9,7 @@ export default function (app: Application) {
     schema: registerSchema,
     controller: AuthController,
     action: "register",
-  });
+  })
 
   app.route({
     method: "post",
@@ -17,7 +17,7 @@ export default function (app: Application) {
     schema: loginSchema,
     controller: AuthController,
     action: "login",
-  });
+  })
 
   app.route({
     method: "post",
@@ -25,12 +25,12 @@ export default function (app: Application) {
     controller: AuthController,
     action: "sendEmail",
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "get",
     prefix: "/auth/verify-email",
     controller: AuthController,
     action: "verifyEmail",
-  });
+  })
 }

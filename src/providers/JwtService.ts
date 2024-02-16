@@ -1,11 +1,11 @@
-import JWT from "jsonwebtoken";
+import JWT from "jsonwebtoken"
 
-import config from "../config";
+import config from "../config"
 
 class JwtService {
   sign(payload: { userID: string }) {
-    return JWT.sign(payload, config.JWT_SECRET);
+    return JWT.sign(payload, config.JWT_SECRET)
   }
 }
 
-export default JwtService;
+export default JwtService

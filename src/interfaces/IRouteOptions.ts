@@ -1,4 +1,4 @@
-import IApiSuccess from "./IApiSuccess";
+// import IApiSuccess from "./IApiSuccess";
 
 // type controllerPrams = {
 //   payload: object,
@@ -17,11 +17,13 @@ import IApiSuccess from "./IApiSuccess";
 // }
 // export { IControllerConstructable ,IController };
 
+type HttpMethod = "get" | "post" | "put" | "delete" | "patch"
+
 export default interface IRouteOptions {
-  method: string;
-  prefix: string;
-  schema?: any; // TODO:
-  controller: any;
-  action: string;
-  auth?: "jwt";
+  method: HttpMethod
+  prefix: string
+  schema?: object // TODO:
+  controller: any // TODO:
+  action: string
+  auth?: "jwt"
 }

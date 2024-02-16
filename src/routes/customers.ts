@@ -1,10 +1,10 @@
-import CustomerController from "../modules/customer/CustomerController";
+import CustomerController from "../modules/customer/CustomerController"
 import {
   createSchema,
   findQuerySchema,
   updateSchema,
-} from "../modules/customer/schema";
-import Application from "../providers/Application";
+} from "../modules/customer/schema"
+import Application from "../providers/Application"
 
 export default function (app: Application) {
   app.route({
@@ -14,7 +14,7 @@ export default function (app: Application) {
     controller: CustomerController,
     action: "create",
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "put",
@@ -23,7 +23,7 @@ export default function (app: Application) {
     controller: CustomerController,
     action: "updateById",
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "get",
@@ -32,7 +32,7 @@ export default function (app: Application) {
     schema: findQuerySchema,
     controller: CustomerController,
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "get",
@@ -40,7 +40,7 @@ export default function (app: Application) {
     prefix: "/customers/:id",
     controller: CustomerController,
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "delete",
@@ -48,5 +48,5 @@ export default function (app: Application) {
     prefix: "/customers/:id",
     controller: CustomerController,
     auth: "jwt",
-  });
+  })
 }

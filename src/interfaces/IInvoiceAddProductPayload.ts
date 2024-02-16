@@ -1,7 +1,7 @@
-import { InvoiceItem } from "./IInvoice";
+import { InvoiceItem } from "./IInvoice"
 
 export default interface IInvoiceAddProductPayload
   extends Omit<InvoiceItem, "product"> {
-  product: string;
+  product: string
   // invoice:string;
 }

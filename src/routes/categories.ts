@@ -1,10 +1,10 @@
-import CategoryController from "../modules/category/CategoryController";
+import CategoryController from "../modules/category/CategoryController"
 import {
   createSchema,
   findQuerySchema,
   updateSchema,
-} from "../modules/category/schema";
-import Application from "../providers/Application";
+} from "../modules/category/schema"
+import Application from "../providers/Application"
 
 export default function (app: Application) {
   app.route({
@@ -14,7 +14,7 @@ export default function (app: Application) {
     controller: CategoryController,
     action: "create",
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "put",
@@ -23,7 +23,7 @@ export default function (app: Application) {
     controller: CategoryController,
     action: "updateById",
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "get",
@@ -32,7 +32,7 @@ export default function (app: Application) {
     schema: findQuerySchema,
     controller: CategoryController,
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "delete",
@@ -40,7 +40,7 @@ export default function (app: Application) {
     prefix: "/categories/:id",
     controller: CategoryController,
     auth: "jwt",
-  });
+  })
 
   app.route({
     method: "get",
@@ -48,5 +48,5 @@ export default function (app: Application) {
     prefix: "/categories/:id",
     controller: CategoryController,
     auth: "jwt",
-  });
+  })
 }

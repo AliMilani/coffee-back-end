@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
-import ICustomer from "../interfaces/ICustomer";
+import mongoose from "mongoose"
+import ICustomer from "../interfaces/ICustomer"
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const customerSchema = new Schema<ICustomer>(
   {
@@ -26,6 +26,6 @@ const customerSchema = new Schema<ICustomer>(
     userType: String,
   },
   { timestamps: true },
-);
+)
 
-export default mongoose.model("Customer", customerSchema);
+export default mongoose.model("Customer", customerSchema)

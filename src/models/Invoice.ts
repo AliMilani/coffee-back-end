@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import Invoice, {
   InvoiceItem,
   // InvoicePaymentType,
   InvoiceStatus,
-} from "../interfaces/IInvoice";
+} from "../interfaces/IInvoice"
 
-const { Schema } = mongoose;
+const { Schema } = mongoose
 
 const InvoiceItemSchema = new Schema<InvoiceItem>({
   discountAmount: {
@@ -20,7 +20,7 @@ const InvoiceItemSchema = new Schema<InvoiceItem>({
     type: Number,
     default: 1,
   },
-});
+})
 
 const invoiceSchema = new Schema<Invoice>(
   {
@@ -66,6 +66,6 @@ const invoiceSchema = new Schema<Invoice>(
     },
   },
   { timestamps: true },
-);
+)
 
-export default mongoose.model("Invoice", invoiceSchema);
+export default mongoose.model("Invoice", invoiceSchema)

@@ -20,7 +20,7 @@ export const createSchema = {
     modelName: "Category",
     label: "دسته",
   },
-};
+}
 
 export const updateSchema = {
   name: {
@@ -47,7 +47,7 @@ export const updateSchema = {
     label: "دسته",
     optional: true,
   },
-};
+}
 
 export const findQuerySchema = {
   page: {
@@ -70,4 +70,4 @@ export const findQuerySchema = {
     label: "دسته",
     optional: true,
   },
-};
+}

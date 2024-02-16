@@ -1,14 +1,14 @@
-import mongoose from "mongoose";
+import mongoose from "mongoose"
 import FastestValidator, {
   ValidationError,
   ValidationSchema,
-} from "fastest-validator";
+} from "fastest-validator"
 
 interface ValidationErrorWithLabel extends Partial<ValidationError> {
-  label?: string;
+  label?: string
 }
 interface ValidationSchemaWithLabel extends ValidationSchema {
-  label?: string;
+  label?: string
 }
 
 const farsiMessages = Object.freeze({
@@ -47,7 +47,7 @@ const farsiMessages = Object.freeze({
   date: "{field} باید یک تاریخ باشد",
   // custom validators messages
   idNotExist: "{field} در پایگاه داده موجود نیست",
-});
+})
 
 const defaultTypes = {
   object: {
@@ -63,17 +63,17 @@ const defaultTypes = {
       parent: any,
       context: any,
     ) => {
-      if (!value && schema.optional) return value;
+      if (!value && schema.optional) return value
       if (!schema.modelName)
-        throw new Error("modelName is required for objectID type");
-      const Model = mongoose.model(schema.modelName);
-      if (await Model.exists({ _id: value })) return value;
+        throw new Error("modelName is required for objectID type")
+      const Model = mongoose.model(schema.modelName)
+      if (await Model.exists({ _id: value })) return value
       errors.push({
         type: "idNotExist",
         actual: value,
         label: schema.label,
         // field:name
-      });
+      })
     },
   },
   email: {
@@ -83,23 +83,23 @@ const defaultTypes = {
     mode: "precise",
     label: "ایمیل",
   },
-};
+}
 
 const v = new FastestValidator({
   useNewCustomCheckerFunction: true,
   messages: farsiMessages,
   defaults: defaultTypes,
-});
+})
 
 const apiValidator = async (
   schema: any,
   payload: any,
 ): Promise<ValidationError[] | null> => {
-  const validator = v.compile({ ...schema, $$async: true, $$strict: true });
+  const validator = v.compile({ ...schema, $$async: true, $$strict: true })
 
-  const result = await validator(payload);
-  if (result === true) return null;
-  return result;
-};
+  const result = await validator(payload)
+  if (result === true) return null
+  return result
+}
 
-export default apiValidator;
+export default apiValidator
