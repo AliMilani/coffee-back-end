@@ -1,5 +1,5 @@
 import env from "./utils/env"
-// import IConfig from "./interfaces/IConfig";
+// import IConfig from "./interfaces/IConfig"
 
 const config = {
   PORT: Number(env("PORT")),
