@@ -89,13 +89,13 @@ export const invoiceAddProductSchema = {
     convert: true,
     min: 500,
     default: 0,
-    label:"تخفیف"
+    label: "تخفیف",
   },
-  total:{
+  total: {
     type: "number",
     convert: true,
     min: 1,
     default: 1,
-    label:"تعداد"
-  }
+    label: "تعداد",
+  },
 };

@@ -1,5 +1,9 @@
 import CategoryController from "../modules/category/CategoryController";
-import { createSchema,findQuerySchema, updateSchema } from "../modules/category/schema";
+import {
+  createSchema,
+  findQuerySchema,
+  updateSchema,
+} from "../modules/category/schema";
 import Application from "../providers/Application";
 
 export default function (app: Application) {
@@ -25,7 +29,7 @@ export default function (app: Application) {
     method: "get",
     action: "find",
     prefix: "/categories",
-    schema:findQuerySchema,
+    schema: findQuerySchema,
     controller: CategoryController,
     auth: "jwt",
   });

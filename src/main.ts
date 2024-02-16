@@ -17,10 +17,10 @@ async function bootstrap() {
   const app = new Application();
 
   authRoute(app);
-  customersRoute(app)
-  productsRoute(app)
-  invoicesRoute(app)
-  categoriesRoute(app)
+  customersRoute(app);
+  productsRoute(app);
+  invoicesRoute(app);
+  categoriesRoute(app);
 
   await app.listen();
 }

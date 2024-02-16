@@ -31,10 +31,10 @@ class ProductService {
     limit: number | undefined;
     category: string | undefined;
   }) => {
-    const filter : {name?:any,category?:any} = {
+    const filter: { name?: any; category?: any } = {
       name: { $regex: searchName, $options: "i" },
-    } 
-    if(category) filter["category"] =new mongoose.Types.ObjectId(category);
+    };
+    if (category) filter["category"] = new mongoose.Types.ObjectId(category);
 
     const pipeLine = paginationPipeLine<IProduct>({
       page,

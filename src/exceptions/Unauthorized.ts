@@ -1,12 +1,12 @@
-import HTTPError from './HTTPError';
+import HTTPError from "./HTTPError";
 
 class Unauthorized extends HTTPError {
   public readonly statusCode = 401;
 
   public readonly payload = {
-    error: 'unauthorized',
+    error: "unauthorized",
     statusCode: this.statusCode,
-    message: this.message || 'invalid password'
+    message: this.message || "invalid password",
   };
 }
 

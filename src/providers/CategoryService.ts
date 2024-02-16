@@ -10,9 +10,9 @@ class CategoryService {
   updateById = async (id: string, payload: Partial<ICategory>) => {
     const updatedCategory = await Category.findByIdAndUpdate(id, payload, {
       new: true,
-    }).lean()
+    }).lean();
     if (!updatedCategory) throw new Error("Not found by id");
-    return updatedCategory
+    return updatedCategory;
   };
 
   findByID = (id: string) => {
@@ -32,7 +32,7 @@ class CategoryService {
       page,
       limit,
       filter: {
-        name: { $regex: searchName, $options: "i" }
+        name: { $regex: searchName, $options: "i" },
       },
     });
     const [result] = await Category.aggregate(pipeLine);
@@ -48,4 +48,4 @@ class CategoryService {
   };
 }
 
-export default CategoryService
+export default CategoryService;

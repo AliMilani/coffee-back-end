@@ -1,3 +1,3 @@
 export default interface IVerifyEmailQuery {
-  key: string,
+  key: string;
 }

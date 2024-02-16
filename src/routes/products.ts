@@ -1,5 +1,9 @@
 import ProductController from "../modules/product/ProductController";
-import { createSchema,findQuerySchema, updateSchema } from "../modules/product/schema";
+import {
+  createSchema,
+  findQuerySchema,
+  updateSchema,
+} from "../modules/product/schema";
 import Application from "../providers/Application";
 
 export default function (app: Application) {
@@ -25,7 +29,7 @@ export default function (app: Application) {
     method: "get",
     action: "find",
     prefix: "/products",
-    schema:findQuerySchema,
+    schema: findQuerySchema,
     controller: ProductController,
     auth: "jwt",
   });

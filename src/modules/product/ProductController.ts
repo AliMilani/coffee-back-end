@@ -32,7 +32,7 @@ class ProductController {
       category: string | undefined;
     };
   }): Promise<IApiSuccess> => {
-    const { limit, page, search_name,category } = query;
+    const { limit, page, search_name, category } = query;
     const customers = await this.productService.findByPagination({
       limit,
       page,
@@ -63,7 +63,7 @@ class ProductController {
   }): Promise<IApiSuccess> => {
     const updatedCustomer = await this.productService.updateById(id, payload);
     return {
-      data:updatedCustomer
+      data: updatedCustomer,
     };
   };
 
@@ -71,14 +71,13 @@ class ProductController {
     params: { id },
   }: {
     params: { id: string };
-  }): Promise<IApiSuccess> =>{
-    const product = await this.productService.findByID(id)
-    if(!product) throw new NotFound()
+  }): Promise<IApiSuccess> => {
+    const product = await this.productService.findByID(id);
+    if (!product) throw new NotFound();
     return {
       data: product,
-    }
-  }
+    };
+  };
 }
 
-
-export default ProductController
+export default ProductController;

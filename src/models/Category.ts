@@ -9,9 +9,9 @@ const categorySchema = new Schema<ICategory>(
       // unique:true,
       type: String,
       required: true,
-    }
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Category", categorySchema);

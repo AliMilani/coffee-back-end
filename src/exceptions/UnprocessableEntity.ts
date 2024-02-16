@@ -1,12 +1,12 @@
-import HTTPError from './HTTPError';
+import HTTPError from "./HTTPError";
 
 class UnprocessableEntity extends HTTPError {
   public readonly statusCode = 422;
 
   public readonly payload = {
-    error: 'unprocessable entity',
+    error: "unprocessable entity",
     statusCode: this.statusCode,
-    message: this.message || 'body or query is unprocessable',
+    message: this.message || "body or query is unprocessable",
   };
 }
 

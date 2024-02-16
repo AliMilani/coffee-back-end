@@ -25,14 +25,14 @@ const InvoiceItemSchema = new Schema<InvoiceItem>({
 const invoiceSchema = new Schema<Invoice>(
   {
     items: InvoiceItemSchema,
-    customer:{
+    customer: {
       type: Schema.Types.ObjectId,
       ref: "Customer",
       required: true,
     },
-    invoiceNumber:{
+    invoiceNumber: {
       type: Number,
-      required:true
+      required: true,
     },
     ServiceFee: {
       type: Number,
@@ -51,13 +51,13 @@ const invoiceSchema = new Schema<Invoice>(
     //   type: String,
     //   enum: ["cash", "card", "mixed"] as InvoicePaymentType[],
     // },
-    paidCash:{
-      type:Number,
-      default:0
+    paidCash: {
+      type: Number,
+      default: 0,
     },
-    paidCard:{
-      type:Number,
-      default:0
+    paidCard: {
+      type: Number,
+      default: 0,
     },
     status: {
       type: String,
@@ -65,7 +65,7 @@ const invoiceSchema = new Schema<Invoice>(
       default: "draft",
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Invoice", invoiceSchema);

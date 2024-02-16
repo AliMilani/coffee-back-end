@@ -1,5 +1,9 @@
 import CustomerController from "../modules/customer/CustomerController";
-import { createSchema,findQuerySchema, updateSchema } from "../modules/customer/schema";
+import {
+  createSchema,
+  findQuerySchema,
+  updateSchema,
+} from "../modules/customer/schema";
 import Application from "../providers/Application";
 
 export default function (app: Application) {
@@ -25,11 +29,11 @@ export default function (app: Application) {
     method: "get",
     action: "find",
     prefix: "/customers",
-    schema:findQuerySchema,
+    schema: findQuerySchema,
     controller: CustomerController,
     auth: "jwt",
   });
-  
+
   app.route({
     method: "get",
     action: "getById",

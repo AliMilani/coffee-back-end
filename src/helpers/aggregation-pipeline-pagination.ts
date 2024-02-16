@@ -69,5 +69,5 @@ export const paginationPipeLine = <T extends Record<string, any>>({
         totalItems: "$total.count",
       },
     },
-  ] as PipelineStage[]
+  ] as PipelineStage[];
 };

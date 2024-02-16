@@ -57,9 +57,9 @@ export const updateSchema = {
   ...createSchema,
   phoneNumber: {
     type: "number",
-    convert:true,
+    convert: true,
     label: "تلفن همراه",
-    optional:true
+    optional: true,
   },
 };
 

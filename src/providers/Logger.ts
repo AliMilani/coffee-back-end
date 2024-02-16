@@ -1,7 +1,12 @@
-import { createLogger, transports, format, Logger as winstonLogger } from 'winston';
+import {
+  createLogger,
+  transports,
+  format,
+  Logger as winstonLogger,
+} from "winston";
 
 const logFormat = format.printf(
-  (info) => `${info.timestamp} ${info.level}: ${info.message}`
+  (info) => `${info.timestamp} ${info.level}: ${info.message}`,
 );
 
 class Logger {
@@ -9,10 +14,10 @@ class Logger {
 
   constructor() {
     this.logger = createLogger({
-      level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+      level: process.env.NODE_ENV === "production" ? "info" : "debug",
       format: format.combine(
-        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
-        format.metadata({ fillExcept: ['message', 'level', 'timestamp'] })
+        format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
+        format.metadata({ fillExcept: ["message", "level", "timestamp"] }),
       ),
       transports: [
         new transports.Console({

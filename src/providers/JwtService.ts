@@ -1,6 +1,6 @@
-import JWT from 'jsonwebtoken';
+import JWT from "jsonwebtoken";
 
-import config from '../config';
+import config from "../config";
 
 class JwtService {
   sign(payload: { userID: string }) {

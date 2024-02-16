@@ -1,18 +1,18 @@
 export const createSchema = {
-  name:{
-    type:"string",
-    empty:false,
-    label:"نام دسته",
-  }
+  name: {
+    type: "string",
+    empty: false,
+    label: "نام دسته",
+  },
 };
 
 export const updateSchema = {
-  name:{
-    type:"string",
-    optional:true,
-    empty:false,
-    label:"نام دسته"
-  }
+  name: {
+    type: "string",
+    optional: true,
+    empty: false,
+    label: "نام دسته",
+  },
 };
 
 export const findQuerySchema = {

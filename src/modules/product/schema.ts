@@ -1,19 +1,19 @@
 export const createSchema = {
-  name:{
-    type:"string",
-    empty:false,
-    label:"نام محصول"
+  name: {
+    type: "string",
+    empty: false,
+    label: "نام محصول",
   },
-  price:{
-    type:"number",
-    empty:false,
+  price: {
+    type: "number",
+    empty: false,
     convert: true,
-    label:"قیمت"
+    label: "قیمت",
   },
-  inStock:{
-    type:"boolean",
-    empty:false,
-    label:"موجدی انبار"
+  inStock: {
+    type: "boolean",
+    empty: false,
+    label: "موجدی انبار",
   },
   category: {
     type: "objectID",
@@ -23,23 +23,23 @@ export const createSchema = {
 };
 
 export const updateSchema = {
-  name:{
-    type:"string",
-    optional:true,
-    empty:false,
-    label:"نام محصول"
+  name: {
+    type: "string",
+    optional: true,
+    empty: false,
+    label: "نام محصول",
   },
-  price:{
-    type:"number",
-    optional:true,
-    empty:false,
-    label:"قیمت"
+  price: {
+    type: "number",
+    optional: true,
+    empty: false,
+    label: "قیمت",
   },
-  inStock:{
-    type:"boolean",
-    optional:true,
-    empty:false,
-    label:"موجدی انبار"
+  inStock: {
+    type: "boolean",
+    optional: true,
+    empty: false,
+    label: "موجدی انبار",
   },
   category: {
     type: "objectID",

@@ -1,5 +1,5 @@
-import User from '../models/User';
-import IRegisterPayload from '../interfaces/IRegisterPayload';
+import User from "../models/User";
+import IRegisterPayload from "../interfaces/IRegisterPayload";
 
 class UserService {
   findByID(id: string) {
@@ -16,7 +16,9 @@ class UserService {
 
   async verifyEmail(emailVerificationKey: string): Promise<boolean> {
     const { modifiedCount } = await User.updateOne(
-      { emailVerificationKey }, { verified: true, emailVerificationKey: null });
+      { emailVerificationKey },
+      { verified: true, emailVerificationKey: null },
+    );
     return Boolean(modifiedCount);
   }
 }

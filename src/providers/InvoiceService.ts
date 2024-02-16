@@ -34,7 +34,7 @@ class InvoiceService {
       },
       {
         new: true,
-      }
+      },
     )
       .populate("customer")
       .lean();
@@ -108,7 +108,7 @@ class InvoiceService {
 
   addProduct = async (
     invoiceId: string,
-    productItem: Omit<IInvoiceAddProductPayload, "invoice">
+    productItem: Omit<IInvoiceAddProductPayload, "invoice">,
   ): Promise<void> => {
     const invoice = await this.findByID(invoiceId);
     if (!invoice) throw new Error("invoice not found");
@@ -160,17 +160,17 @@ class InvoiceService {
 
   private _getProductItemById = (
     productId: string,
-    productItems: InvoiceItem[]
+    productItems: InvoiceItem[],
   ) => {
     return productItems.find(
-      (item) => item.product._id.toString() === productId
+      (item) => item.product._id.toString() === productId,
     );
   };
 
   updateProduct = async (
     invoice: IInvoice,
     productId: string,
-    productItem: IInvoiceUpdateProductPayload
+    productItem: IInvoiceUpdateProductPayload,
   ): Promise<void> => {
     if (!invoice._id) throw new Error("_id is required");
     const invoiceId = invoice._id.toString();
@@ -178,13 +178,13 @@ class InvoiceService {
 
     const targetInvoiceItem = this._getProductItemById(
       productId,
-      invoice.items
+      invoice.items,
     );
     if (!targetInvoiceItem) throw new Error("Product not found to update");
 
     this.#validateProductItem(
       targetInvoiceItem.product,
-      productItem.discountAmount ?? targetInvoiceItem.discountAmount
+      productItem.discountAmount ?? targetInvoiceItem.discountAmount,
     );
 
     // console.log(targetProduct,productItem)
@@ -202,7 +202,7 @@ class InvoiceService {
 
   removeProduct = async (
     invoiceId: string,
-    productId: string
+    productId: string,
   ): Promise<void> => {
     const invoice = await this.findByID(invoiceId);
     if (!invoice) throw new Error("Invoice not found");

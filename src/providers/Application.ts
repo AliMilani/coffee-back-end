@@ -1,5 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
-import cors from "cors"
+import cors from "cors";
 import passport from "passport";
 import _ from "lodash";
 
@@ -17,7 +17,7 @@ class Application {
 
   constructor() {
     this.app.use(express.json());
-    this.app.use(cors())
+    this.app.use(cors());
     passport.use(new JwtStrategy(DI.userService).createStrategy());
   }
 
@@ -34,7 +34,7 @@ class Application {
       async (req: Request, res: Response, next: NextFunction) => {
         DI.logger.log("info", `${method} ${req.url}`);
         try {
-          if (method === "post" && schema || method === "put" && schema) {
+          if ((method === "post" && schema) || (method === "put" && schema)) {
             // await schema.validateAsync(req.body)
             const result = await apiValidator(schema, req.body);
             if (result)
@@ -68,7 +68,7 @@ class Application {
         } catch (error) {
           return next(error);
         }
-      }
+      },
     );
   }
 
@@ -99,7 +99,7 @@ class Application {
       this.app.listen(config.PORT, () => {
         DI.logger.log(
           "info",
-          `> The server is listening on http://localhost:${config.PORT}`
+          `> The server is listening on http://localhost:${config.PORT}`,
         );
         resolve(null);
       });

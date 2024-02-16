@@ -50,8 +50,8 @@ class CustomerService {
         $or: [
           { firstName: { $regex: searchKeyword, $options: "i" } },
           { lastName: { $regex: searchKeyword, $options: "i" } },
-          {phoneNumber: { $regex: searchKeyword, $options: "i" }},
-          {personalCode: { $regex: searchKeyword, $options: "i" }},
+          { phoneNumber: { $regex: searchKeyword, $options: "i" } },
+          { personalCode: { $regex: searchKeyword, $options: "i" } },
         ],
       },
     });

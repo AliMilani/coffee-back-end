@@ -1,4 +1,3 @@
-
 // TODO: Implement a more robust Dependency Injection solution
 
 import Logger from "./providers/Logger";
@@ -11,14 +10,14 @@ import InvoiceService from "./providers/InvoiceService";
 import CategoryService from "./providers/CategoryService";
 
 const deps = {
-  logger: new Logger,
-  userService: new UserService,
-  customerService: new CustomerService,
-  productService: new ProductService,
-  categoryService:new CategoryService,
-  invoiceService: new InvoiceService,
-  jwtService: new JwtService,
-  mail: new Mail,
+  logger: new Logger(),
+  userService: new UserService(),
+  customerService: new CustomerService(),
+  productService: new ProductService(),
+  categoryService: new CategoryService(),
+  invoiceService: new InvoiceService(),
+  jwtService: new JwtService(),
+  mail: new Mail(),
 };
 
 export default deps;

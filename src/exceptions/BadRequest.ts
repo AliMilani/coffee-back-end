@@ -1,12 +1,12 @@
-import HTTPError from './HTTPError';
+import HTTPError from "./HTTPError";
 
 class BadRequest extends HTTPError {
   public readonly statusCode = 400;
 
   public readonly payload = {
-    error: 'bad_request',
+    error: "bad_request",
     statusCode: this.statusCode,
-    message: this.message || 'invalid input'
+    message: this.message || "invalid input",
   };
 }
 

@@ -12,10 +12,10 @@ const customerSchema = new Schema<ICustomer>(
     lastName: String,
     note: String,
     personalCode: {
-      type:String,
-      unique:true,
-      index:true,
-      required:true
+      type: String,
+      unique: true,
+      index: true,
+      required: true,
     },
     phoneNumber: {
       type: String,
@@ -25,7 +25,7 @@ const customerSchema = new Schema<ICustomer>(
     },
     userType: String,
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default mongoose.model("Customer", customerSchema);
