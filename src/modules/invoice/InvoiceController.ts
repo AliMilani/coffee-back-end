@@ -110,7 +110,7 @@ class InvoiceController {
           throw new Conflict("PRODUCT_ALREADY_ADDED")
         if (error.message === "Discount amount must be less than product price")
           throw new Conflict("OVER_DISCOUNT")
-        if ((error.message = "Product not in stock"))
+        if (error.message === "Product not in stock")
           throw new Conflict("NOT_IN_STOCK")
       }
       throw error
