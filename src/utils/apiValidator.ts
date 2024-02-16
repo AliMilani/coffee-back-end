@@ -92,8 +92,8 @@ const v = new FastestValidator({
 })
 
 const apiValidator = async (
-  schema: any,
-  payload: any,
+  schema: object,
+  payload: object,
 ): Promise<ValidationError[] | null> => {
   const validator = v.compile({ ...schema, $$async: true, $$strict: true })
 

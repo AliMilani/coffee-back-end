@@ -19,12 +19,18 @@ class Application {
     passport.use(new JwtStrategy(DI.userService).createStrategy())
   }
 
-  route({ method, prefix, schema, controller, action, auth }: IRouteOptions) {
+  route<ControllerType>({
+    method,
+    prefix,
+    schema,
+    Controller,
+    action,
+    auth,
+  }: IRouteOptions<ControllerType>) {
     const authMiddleware = auth
       ? [passport.authenticate(auth, { session: false })]
       : []
 
-    // TODO: Use the right types
     this.app[method](
       `/api${prefix}`,
       authMiddleware,
@@ -50,7 +56,7 @@ class Application {
               })
           }
 
-          const instance = new controller(DI)
+          const instance = new Controller(DI)
 
           const result: IApiSuccess = await instance[action]({
             payload: req.body,

@@ -7,46 +7,46 @@ import {
 import Application from "../providers/Application"
 
 export default function (app: Application) {
-  app.route({
+  app.route<CustomerController>({
     method: "post",
     prefix: "/customers",
     schema: createSchema,
-    controller: CustomerController,
+    Controller: CustomerController,
     action: "create",
     auth: "jwt",
   })
 
-  app.route({
+  app.route<CustomerController>({
     method: "put",
     prefix: "/customers/:id",
     schema: updateSchema,
-    controller: CustomerController,
+    Controller: CustomerController,
     action: "updateById",
     auth: "jwt",
   })
 
-  app.route({
+  app.route<CustomerController>({
     method: "get",
     action: "find",
     prefix: "/customers",
     schema: findQuerySchema,
-    controller: CustomerController,
+    Controller: CustomerController,
     auth: "jwt",
   })
 
-  app.route({
+  app.route<CustomerController>({
     method: "get",
     action: "getById",
     prefix: "/customers/:id",
-    controller: CustomerController,
+    Controller: CustomerController,
     auth: "jwt",
   })
 
-  app.route({
+  app.route<CustomerController>({
     method: "delete",
     action: "delete",
     prefix: "/customers/:id",
-    controller: CustomerController,
+    Controller: CustomerController,
     auth: "jwt",
   })
 }

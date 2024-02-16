@@ -1,5 +1,3 @@
-import _ from "lodash"
-
 import Logger from "../../providers/Logger"
 import ProductService from "../../providers/ProductService"
 import DI from "../../DI"

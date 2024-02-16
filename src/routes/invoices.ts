@@ -8,8 +8,8 @@ import {
 import Application from "../providers/Application"
 
 export default function (app: Application) {
-  app.route({
-    controller: InvoiceController,
+  app.route<InvoiceController>({
+    Controller: InvoiceController,
     method: "post",
     prefix: "/invoices",
     action: "create",
@@ -17,8 +17,8 @@ export default function (app: Application) {
     schema: createSchema,
   })
 
-  app.route({
-    controller: InvoiceController,
+  app.route<InvoiceController>({
+    Controller: InvoiceController,
     method: "put",
     prefix: "/invoices/:id",
     action: "updateById",
@@ -26,16 +26,16 @@ export default function (app: Application) {
     auth: "jwt",
   })
 
-  app.route({
-    controller: InvoiceController,
+  app.route<InvoiceController>({
+    Controller: InvoiceController,
     method: "get",
     prefix: "/invoices/:id",
     action: "findById",
     auth: "jwt",
   })
 
-  app.route({
-    controller: InvoiceController,
+  app.route<InvoiceController>({
+    Controller: InvoiceController,
     method: "get",
     prefix: "/invoices",
     action: "find",
@@ -43,8 +43,8 @@ export default function (app: Application) {
     auth: "jwt",
   })
 
-  app.route({
-    controller: InvoiceController,
+  app.route<InvoiceController>({
+    Controller: InvoiceController,
     schema: invoiceAddProductSchema,
     method: "post",
     prefix: "/invoices/:invoiceId/products",
@@ -52,23 +52,23 @@ export default function (app: Application) {
     auth: "jwt",
   })
 
-  app.route({
-    controller: InvoiceController,
+  app.route<InvoiceController>({
+    Controller: InvoiceController,
     method: "put",
     prefix: "/invoices/:invoiceId/products/:productId",
     action: "updateProduct",
     auth: "jwt",
   })
 
-  app.route({
-    controller: InvoiceController,
+  app.route<InvoiceController>({
+    Controller: InvoiceController,
     method: "delete",
     prefix: "/invoices/:invoiceId/products/:productId",
     action: "deleteProduct",
     auth: "jwt",
   })
 
-  // app.route({
+  // app.route<InvoiceController>({
   //   method: "post",
   //   prefix: "/invoices",
   //   schema: createSchema,
@@ -77,7 +77,7 @@ export default function (app: Application) {
   //   auth: "jwt",
   // });
 
-  // app.route({
+  // app.route<InvoiceController>({
   //   method: "put",
   //   prefix: "/invoices/:id",
   //   schema: updateSchema,
@@ -86,7 +86,7 @@ export default function (app: Application) {
   //   auth: "jwt",
   // });
 
-  // app.route({
+  // app.route<InvoiceController>({
   //   method: "get",
   //   action: "find",
   //   prefix: "/invoices",
@@ -95,7 +95,7 @@ export default function (app: Application) {
   //   auth: "jwt",
   // });
 
-  // app.route({
+  // app.route<InvoiceController>({
   //   method: "delete",
   //   action: "delete",
   //   prefix: "/invoices/:id",

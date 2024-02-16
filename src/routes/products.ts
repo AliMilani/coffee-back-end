@@ -7,46 +7,46 @@ import {
 import Application from "../providers/Application"
 
 export default function (app: Application) {
-  app.route({
+  app.route<ProductController>({
     method: "post",
     prefix: "/products",
     schema: createSchema,
-    controller: ProductController,
+    Controller: ProductController,
     action: "create",
     auth: "jwt",
   })
 
-  app.route({
+  app.route<ProductController>({
     method: "put",
     prefix: "/products/:id",
     schema: updateSchema,
-    controller: ProductController,
+    Controller: ProductController,
     action: "updateById",
     auth: "jwt",
   })
 
-  app.route({
+  app.route<ProductController>({
     method: "get",
     action: "find",
     prefix: "/products",
     schema: findQuerySchema,
-    controller: ProductController,
+    Controller: ProductController,
     auth: "jwt",
   })
 
-  app.route({
+  app.route<ProductController>({
     method: "delete",
     action: "delete",
     prefix: "/products/:id",
-    controller: ProductController,
+    Controller: ProductController,
     auth: "jwt",
   })
 
-  app.route({
+  app.route<ProductController>({
     method: "get",
     action: "getById",
     prefix: "/products/:id",
-    controller: ProductController,
+    Controller: ProductController,
     auth: "jwt",
   })
 }

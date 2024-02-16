@@ -19,11 +19,12 @@
 
 type HttpMethod = "get" | "post" | "put" | "delete" | "patch"
 
-export default interface IRouteOptions {
+export default interface IRouteOptions<ControllerType> {
   method: HttpMethod
   prefix: string
-  schema?: object // TODO:
-  controller: any // TODO:
-  action: string
+  schema?: object
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Controller: any
+  action: keyof ControllerType
   auth?: "jwt"
 }

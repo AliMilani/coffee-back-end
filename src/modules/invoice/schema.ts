@@ -1,6 +1,6 @@
 // export {createSchema,findQuerySchema, updateSchema}
-import Invoice, {
-  InvoiceItem,
+import {
+  // InvoiceItem,
   // InvoicePaymentType,
   InvoiceStatus,
 } from "../../interfaces/IInvoice"

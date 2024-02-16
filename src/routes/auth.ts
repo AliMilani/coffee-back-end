@@ -3,34 +3,34 @@ import { loginSchema, registerSchema } from "../modules/auth/schema"
 import Application from "../providers/Application"
 
 export default function (app: Application) {
-  app.route({
+  app.route<AuthController>({
     method: "post",
     prefix: "/auth/register",
     schema: registerSchema,
-    controller: AuthController,
+    Controller: AuthController,
     action: "register",
   })
 
-  app.route({
+  app.route<AuthController>({
     method: "post",
     prefix: "/auth/login",
     schema: loginSchema,
-    controller: AuthController,
+    Controller: AuthController,
     action: "login",
   })
 
-  app.route({
+  app.route<AuthController>({
     method: "post",
     prefix: "/auth/send-verification-email",
-    controller: AuthController,
+    Controller: AuthController,
     action: "sendEmail",
     auth: "jwt",
   })
 
-  app.route({
+  app.route<AuthController>({
     method: "get",
     prefix: "/auth/verify-email",
-    controller: AuthController,
+    Controller: AuthController,
     action: "verifyEmail",
   })
 }
