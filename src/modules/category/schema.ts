@@ -1,4 +1,9 @@
-export const createSchema = {
+import ICreateCategory from "../../interfaces/ICreateCategoryPayload"
+import ValidatorSchema from "../../types/ValidatorSchemaType"
+import IUpdateCategory from "../../interfaces/IUpdateCategoryPayload"
+import IApiQuery from "../../interfaces/IApiQuery"
+
+export const createSchema: ValidatorSchema<ICreateCategory> = {
   name: {
     type: "string",
     empty: false,
@@ -6,7 +11,7 @@ export const createSchema = {
   },
 }
 
-export const updateSchema = {
+export const updateSchema: ValidatorSchema<IUpdateCategory> = {
   name: {
     type: "string",
     optional: true,
@@ -15,7 +20,9 @@ export const updateSchema = {
   },
 }
 
-export const findQuerySchema = {
+export const findQuerySchema: ValidatorSchema<
+  IApiQuery & { search_name?: string }
+> = {
   page: {
     type: "number",
     convert: true,

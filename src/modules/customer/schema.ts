@@ -1,4 +1,9 @@
-export const createSchema = {
+import IApiQuery from "../../interfaces/IApiQuery"
+import ICreateCustomer from "../../interfaces/ICreateCustomerPayload"
+import IUpdateCustomer from "../../interfaces/IUpdateCustomerPayload"
+import ValidatorSchema from "../../types/ValidatorSchemaType"
+
+export const createSchema: ValidatorSchema<ICreateCustomer> = {
   allergy: {
     type: "string",
     label: "آلرژی",
@@ -53,7 +58,7 @@ export const createSchema = {
   },
 }
 
-export const updateSchema = {
+export const updateSchema: ValidatorSchema<IUpdateCustomer> = {
   ...createSchema,
   phoneNumber: {
     type: "number",
@@ -63,7 +68,9 @@ export const updateSchema = {
   },
 }
 
-export const findQuerySchema = {
+export const findQuerySchema: ValidatorSchema<
+  IApiQuery & { search_keyword: string }
+> = {
   page: {
     type: "number",
     convert: true,

@@ -1,4 +1,9 @@
-export const createSchema = {
+import IUpdateProductPayload from "../../interfaces/IUpdateProductPayload"
+import ICreateProductPayload from "../../interfaces/ICreateProductPayload"
+import ValidatorSchema from "../../types/ValidatorSchemaType"
+import IApiQuery from "../../interfaces/IApiQuery"
+
+export const createSchema: ValidatorSchema<ICreateProductPayload> = {
   name: {
     type: "string",
     empty: false,
@@ -22,7 +27,7 @@ export const createSchema = {
   },
 }
 
-export const updateSchema = {
+export const updateSchema: ValidatorSchema<IUpdateProductPayload> = {
   name: {
     type: "string",
     optional: true,
@@ -49,7 +54,10 @@ export const updateSchema = {
   },
 }
 
-export const findQuerySchema = {
+//TODO: export to interface
+export const findQuerySchema: ValidatorSchema<
+  IApiQuery & { search_name?: string; category: string }
+> = {
   page: {
     type: "number",
     convert: true,

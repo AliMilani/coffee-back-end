@@ -8,7 +8,7 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/stylistic"
   ],
-  "ignorePatterns": ["dist/"],
+  "ignorePatterns": ["dist/","vitest.config.ts"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "ecmaVersion": "latest",

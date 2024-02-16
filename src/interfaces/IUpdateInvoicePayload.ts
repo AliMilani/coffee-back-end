@@ -1,3 +1,5 @@
-import IInvoice from "./IInvoice";
+import IInvoice from "./IInvoice"
 
-export default type IUpdateInvoicePayload = Partial<Omit<IInvoice, "items">>
+type IUpdateInvoicePayload = Partial<Omit<IInvoice, "items">>
+
+export default IUpdateInvoicePayload

@@ -1,10 +1,11 @@
-// export {createSchema,findQuerySchema, updateSchema}
-import {
-  // InvoiceItem,
-  // InvoicePaymentType,
-  InvoiceStatus,
-} from "../../interfaces/IInvoice"
-export const createSchema = {
+import { InvoiceStatus } from "../../interfaces/IInvoice"
+import ICreateInvoice from "../../interfaces/ICreateInvoice"
+import IUpdateInvoicePayload from "../../interfaces/IUpdateInvoicePayload"
+import ValidatorSchema from "../../types/ValidatorSchemaType"
+import IApiQuery from "../../interfaces/IApiQuery"
+import IInvoiceAddProductPayload from "../../interfaces/IInvoiceAddProductPayload"
+
+export const createSchema: ValidatorSchema<ICreateInvoice> = {
   customer: {
     type: "objectID",
     modelName: "Customer",
@@ -12,7 +13,7 @@ export const createSchema = {
   },
 }
 
-export const updateSchema = {
+export const updateSchema: ValidatorSchema<IUpdateInvoicePayload> = {
   customer: {
     type: "objectID",
     optional: true,
@@ -64,7 +65,7 @@ export const updateSchema = {
   },
 }
 
-export const findQuerySchema = {
+export const findQuerySchema: ValidatorSchema<IApiQuery> = {
   page: {
     type: "number",
     convert: true,
@@ -77,25 +78,26 @@ export const findQuerySchema = {
   },
 }
 
-export const invoiceAddProductSchema = {
-  product: {
-    type: "objectID",
-    optional: true,
-    modelName: "Product",
-    label: "محصول",
-  },
-  discountAmount: {
-    type: "number",
-    convert: true,
-    min: 500,
-    default: 0,
-    label: "تخفیف",
-  },
-  total: {
-    type: "number",
-    convert: true,
-    min: 1,
-    default: 1,
-    label: "تعداد",
-  },
-}
+export const invoiceAddProductSchema: ValidatorSchema<IInvoiceAddProductPayload> =
+  {
+    product: {
+      type: "objectID",
+      optional: true,
+      modelName: "Product",
+      label: "محصول",
+    },
+    discountAmount: {
+      type: "number",
+      convert: true,
+      min: 500,
+      default: 0,
+      label: "تخفیف",
+    },
+    total: {
+      type: "number",
+      convert: true,
+      min: 1,
+      default: 1,
+      label: "تعداد",
+    },
+  }
